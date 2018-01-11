@@ -17,19 +17,12 @@
 (require 'delight)
 (require 'bind-key)
 
-
 (setq visible-bell t)
 
-
-
 
-
-
-
-
-
-
-
+;;;;;;;;;;;;;;;;;;;;;;;;
+;; BASIC KEY BINDINGS ;;
+;;;;;;;;;;;;;;;;;;;;;;;;
 (global-set-key [f5] 'toggle-truncate-lines) ;; Linewrap?
 (global-set-key [f6] 'global-hl-line-mode) ;; Highlight current line
 (global-set-key [f7] 'linum-mode) ;; Line Numbers in margin
@@ -47,30 +40,18 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
+;;;;;;;;;;;;;;;;;;;
+;; PACKAGE SETUP ;;
+;;;;;;;;;;;;;;;;;;;
 (use-package cider-hydra
   :ensure t)
-
-
-
 
 (use-package clojure-mode
   :ensure t
   :config
   (defun my-clojure-mode-hook () 
     (highlight-phrase "TODO" 'web-mode-comment-keyword-face) 
-    (yas-minor-mode 1) 
-    )
+    (yas-minor-mode 1))
   (add-hook 'clojure-mode-hook #'my-clojure-mode-hook))
 
 
@@ -95,7 +76,6 @@
   (company-quickhelp-mode 1)
   (setq company-quickhelp-delay 0.5))
 
-
 (use-package diminish-mode)
 (use-package dired-filter
   :ensure t)
@@ -107,16 +87,6 @@
   (bind-keys
    :map dired-mode-map
    ("C-c n" . dired-narrow)))
-
-
-
-
-
-
-
-
-
-
 
 (use-package helm
   :ensure t
@@ -158,9 +128,6 @@
         helm-semantic-fuzzy-match         t ; imenu fuzzy match
         helm-imenu-fuzzy-match            t)
   (helm-mode 1))
-
-
-
 
 (use-package helm-swoop
   :ensure t
@@ -319,8 +286,7 @@ _._ Scroll→
      ("[" backward-page "back page")
      ("]" forward-page "forward page")
      ("SPC" nil "cancel")
-     ))
-  )
+     )))
 
 (use-package ibuffer
   :bind (("C-x C-b" . ibuffer))
@@ -336,21 +302,10 @@ _._ Scroll→
   (global-set-key "\C-xg" 'magit-status)
   (setq magit-diff-use-overlays nil))
 
-
 (use-package company-quickhelp
   :ensure pos-tip
   :config
   (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode)))
-
-
-
-
-
-
-
-
-
-
 
 (use-package smartparens-config
   :ensure smartparens
@@ -413,17 +368,12 @@ _._ Scroll→
    sml/theme 'dark
    sml/name-width 44
    sml/mode-width 'full
-   sml/show-eol nil)
-  )
+   sml/show-eol nil))
 
 (use-package spacemacs-common
   :ensure spacemacs-theme
   :config
-  (load-theme 'spacemacs-dark t)
-  )
-
-
-
+  (load-theme 'spacemacs-dark t))
 
 (use-package frame
   :config
@@ -437,7 +387,6 @@ _._ Scroll→
   (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
   (add-to-list 'display-buffer-alist
                '("^\\*shell\\*$" . (display-buffer-same-window)))) ;; don't open shell in a new window
-
 
 (use-package web-mode
   :config
@@ -462,14 +411,12 @@ _._ Scroll→
   (setq windmove-default-keybindings t)
   (setq max-specpdl-size 10000))
 
-
 (use-package yasnippet
   :delight yas-minor-mode "Y"
   :ensure t
   :config
   (add-to-list 'yas-snippet-dirs
-               "~/emacs/Snippets"
-               )
+               "~/emacs/Snippets")
   (yas-global-mode))
 
 (use-package cider
@@ -482,6 +429,4 @@ _._ Scroll→
   (add-hook 'cider-repl-mode-hook #'paredit-mode)
   (defun figwheel-connect ()
     (interactive)
-    (cider-connect "localhost" "7002"))
-  )
-
+    (cider-connect "localhost" "7002")))
