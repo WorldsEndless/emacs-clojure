@@ -1,0 +1,17 @@
+* emacs-clojure
+A rapid setup for getting the basic clojure environment setup with necessaries and niceties including 
+- use-package
+- Cider
+- Magit
+- Helm
+- Company
+- SmartParens
+- Projectile
+- Rainbow*
+- Hydra
+
+** To Use
+Assuming you have the latest emacs installed (25.*), put the included emacs.el in your home root (=~/=) directory. Upon starting emacs the first start will download all the plugins. If it doesn't read the configuration file, try renaming it to =~/.emacs= instead of emacs.el.
+
+* Copyright
+© 2018 Tory Anderson; feel free to use/edit/modify. 
