@@ -6,13 +6,16 @@
         ("org" . "http://orgmode.org/elpa/")
         ("melpa-stable" . "http://stable.melpa.org/packages/")))
 (package-initialize)
+(package-install 'diminish)
+(package-install 'delight)
+(package-install 'bind-key)
+(package-install 'use-package)
 
 (eval-when-compile
   (require 'use-package))
-(require 'diminish)                ;; if you use :diminish
+(require 'diminish)
 (require 'delight)
-(require 'bind-key)                ;; if you use any :bind variant
-
+(require 'bind-key)
 
 
 (setq visible-bell t)
