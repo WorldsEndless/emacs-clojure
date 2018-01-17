@@ -101,8 +101,6 @@
   (use-package helm-config :ensure t)
   (use-package helm-files :ensure t)
   (use-package helm-grep :ensure t)
-  (use-package helm-org :ensure t)
-  (use-package helm-org-rifle :ensure t)
   (use-package helm-descbinds :ensure t)
   (helm-descbinds-mode)
   (global-set-key (kbd "C-h k") 'helm-descbinds)
@@ -415,8 +413,7 @@ _._ Scroll→
   :delight yas-minor-mode "Y"
   :ensure t
   :config
-  (add-to-list 'yas-snippet-dirs
-               "~/emacs/Snippets")
+  (use-package clojure-snippets :ensure t)
   (yas-global-mode))
 
 (use-package cider
