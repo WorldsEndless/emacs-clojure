@@ -76,7 +76,7 @@
   (company-quickhelp-mode 1)
   (setq company-quickhelp-delay 0.5))
 
-(use-package diminish-mode)
+(use-package diminish-mode :ensure t)
 (use-package dired-filter
   :ensure t)
 (use-package dired-subtree
@@ -98,10 +98,10 @@
          ("M-x" . helm-M-x))
   :delight helm-mode
   :config
-  (use-package helm-config)
-  (use-package helm-files)
-  (use-package helm-grep)
-  (use-package helm-org)
+  (use-package helm-config :ensure t)
+  (use-package helm-files :ensure t)
+  (use-package helm-grep :ensure t)
+  (use-package helm-org :ensure t)
   (use-package helm-org-rifle :ensure t)
   (use-package helm-descbinds :ensure t)
   (helm-descbinds-mode)
