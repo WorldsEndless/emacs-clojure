@@ -27,18 +27,13 @@
 (global-set-key [f6] 'global-hl-line-mode) ;; Highlight current line
 (global-set-key [f7] 'linum-mode) ;; Line Numbers in margin
 (global-set-key [C-f7] 'toggle-scroll-bar) ;; Toggle scroll bar 
-(global-set-key [C-f8] 'calendar) ;; start calendar
-(global-set-key [f9] 'tsa/quick-gnus) ;; Check mail
 (global-set-key [s-f11] 'toggle-frame-fullscreen)
-(global-set-key [f12] 'ispell) ;; Spellcheck
 (global-set-key (kbd "C-x C-d") 'dired) ;; so dired is both C-x C-d and C-x d
 (global-set-key (kbd "C-x C-q") 'view-mode) ;; view mode
 (global-set-key (kbd "M-C-;") 'comment-box)
 
 (setq initial-scratch-message "")
 (setq inhibit-startup-message t)
-
-
 
 ;;;;;;;;;;;;;;;;;;;
 ;; PACKAGE SETUP ;;
@@ -76,7 +71,7 @@
   (company-quickhelp-mode 1)
   (setq company-quickhelp-delay 0.5))
 
-(use-package diminish-mode :ensure t)
+(use-package diminish)
 (use-package dired-filter
   :ensure t)
 (use-package dired-subtree
@@ -98,10 +93,10 @@
          ("M-x" . helm-M-x))
   :delight helm-mode
   :config
-  (use-package helm-config :ensure t)
-  (use-package helm-files :ensure t)
-  (use-package helm-grep :ensure t)
-  (use-package helm-descbinds :ensure t)
+  (use-package helm-config)
+  (use-package helm-files)
+  (use-package helm-grep)
+  (use-package helm-descbinds)
   (helm-descbinds-mode)
   (global-set-key (kbd "C-h k") 'helm-descbinds)
   (global-unset-key (kbd "C-x c"))
