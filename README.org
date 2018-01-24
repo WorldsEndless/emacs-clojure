@@ -11,7 +11,9 @@ A rapid setup for getting the basic clojure environment setup with necessaries a
 - Hydra
 
 ** To Use
-Assuming you have the latest emacs installed (25.*), put the included emacs.el in your home root (=~/=) directory. Upon starting emacs the first start will download all the plugins. If it doesn't read the configuration file, try renaming it to =~/.emacs= instead of emacs.el.
+Assuming you have the latest emacs installed (25.*), put the included emacs.el in the appropriate directory as per https://www.gnu.org/software/emacs/manual/html_node/emacs/Init-File.html.
+
+Upon starting emacs the first start will download all the plugins. If it doesn't read the configuration file, try renaming it to =~/.emacs= instead of emacs.el.
 
 * Copyright
 © 2018 Tory Anderson; feel free to use/edit/modify. 
