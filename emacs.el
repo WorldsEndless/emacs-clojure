@@ -65,11 +65,11 @@
   (define-key company-active-map (kbd "C-:") 'helm-company)
   (setq company-idle-delay 0.3))
 
-(use-package company-quickhelp
-  :ensure pos-tip
-  :config
-  (company-quickhelp-mode 1)
-  (setq company-quickhelp-delay 0.5))
+;; (use-package company-quickhelp
+;;   :ensure pos-tip
+;;   :config
+;;   (company-quickhelp-mode 1)
+;;   (setq company-quickhelp-delay 0.5))
 
 (use-package diminish)
 (use-package dired-filter
@@ -96,7 +96,7 @@
   (use-package helm-config)
   (use-package helm-files)
   (use-package helm-grep)
-  (use-package helm-descbinds)
+  ;(use-package helm-descbinds)
   (helm-descbinds-mode)
   (global-set-key (kbd "C-h k") 'helm-descbinds)
   (global-unset-key (kbd "C-x c"))
@@ -354,14 +354,14 @@ _._ Scroll→
   (setq recentf-max-menu-items 100)
   (recentf-mode 1))
 
-(use-package smart-mode-line
-  :ensure powerline
-  :config
-  (setq
-   sml/theme 'dark
-   sml/name-width 44
-   sml/mode-width 'full
-   sml/show-eol nil))
+;; (use-package smart-mode-line
+;;   :ensure powerline
+;;   :config
+;;   (setq
+;;    sml/theme 'dark
+;;    sml/name-width 44
+;;    sml/mode-width 'full
+;;    sml/show-eol nil))
 
 (use-package spacemacs-common
   :ensure spacemacs-theme
