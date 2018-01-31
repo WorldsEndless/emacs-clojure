@@ -6,15 +6,11 @@
         ("org" . "http://orgmode.org/elpa/")
         ("melpa-stable" . "http://stable.melpa.org/packages/")))
 (package-initialize)
-(package-install 'diminish)
-(package-install 'delight)
 (package-install 'bind-key)
 (package-install 'use-package)
 
 (eval-when-compile
   (require 'use-package))
-(require 'diminish)
-(require 'delight)
 (require 'bind-key)
 
 (setq visible-bell t)
@@ -52,7 +48,6 @@
 
 (use-package company
   :ensure t
-  :delight company-mode "C"
   :bind (("TAB" . company-indent-or-complete-common))
   :defer t
   :config
@@ -89,7 +84,9 @@
          ("M-y" . helm-show-kill-ring)
          ("C-x C-f" . helm-find-files)
          ("C-x b" . helm-mini)
-         ("C-h z" . helm-resume))
+         ("C-h z" . helm-resume)
+         ("M-x" . helm-M-x))
+
   :config
   (use-package helm-config)
   (use-package helm-files)
@@ -124,31 +121,6 @@
     (add-to-list 'winner-boring-buffers "*helm mu contacts*")
     (add-to-list 'winner-boring-buffers "*helm-mode-describe-variable*")
     (add-to-list 'winner-boring-buffers "*helm-mode-describe-function*"))))
-
-(use-package helm-swoop
-  :ensure t
-  :bind (("M-i" . helm-swoop)
-         ("M-I" . helm-swoop-back-to-last-point)
-         ("C-c M-i" . helm-multi-swoop)
-         ("C-x M-i" . helm-multi-swoop-all))
-  :config
-  (define-key isearch-mode-map (kbd "M-i") 'helm-swoop-from-isearch)
-  (define-key helm-swoop-map (kbd "M-i") 'helm-multi-swoop-all-from-helm-swoop)
-  (define-key helm-swoop-map (kbd "C-r") 'helm-previous-line)
-  (define-key helm-swoop-map (kbd "C-s") 'helm-next-line)
-  (define-key helm-multi-swoop-map (kbd "C-r") 'helm-previous-line)
-  (define-key helm-multi-swoop-map (kbd "C-s") 'helm-next-line)
-  (setq helm-multi-swoop-edit-save t)
-  
-  (setq helm-swoop-split-with-multiple-windows nil)
-  
-  (setq helm-swoop-split-direction 'split-window-vertically)
-  
-  (setq helm-swoop-speed-or-color t)
-  
-  (setq helm-swoop-move-to-line-cycle t)
-  
-  (setq helm-swoop-use-line-number-face t))
 
 (use-package hydra
   :ensure t
@@ -326,7 +298,6 @@ _._ Scroll→
 
 (use-package projectile
   :ensure t
-  :delight '(:eval (concat "[P: " (projectile-project-name) "]"))
   :config
   (use-package helm-projectile :ensure t)
   (projectile-global-mode)
@@ -408,7 +379,6 @@ _._ Scroll→
   (setq max-specpdl-size 10000))
 
 (use-package yasnippet
-  :delight yas-minor-mode "Y"
   :ensure t
   :config
   (use-package clojure-snippets :ensure t)
