@@ -89,38 +89,41 @@
          ("M-y" . helm-show-kill-ring)
          ("C-x C-f" . helm-find-files)
          ("C-x b" . helm-mini)
-         ("C-h z" . helm-resume)
-         ("M-x" . helm-M-x))
-  :delight helm-mode
+         ("C-h z" . helm-resume))
   :config
   (use-package helm-config)
   (use-package helm-files)
   (use-package helm-grep)
-  ;(use-package helm-descbinds)
-  (helm-descbinds-mode)
-  (global-set-key (kbd "C-h k") 'helm-descbinds)
   (global-unset-key (kbd "C-x c"))
-  
-  (global-set-key (kbd "C-h SPC") 'helm-all-mark-rings)
   (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to do persistent action
   (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
   (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+  (define-key helm-find-files-map (kbd "C-c x")  'helm-ff-run-open-file-with-default-tool)
+  (define-key helm-find-files-map (kbd "C-c C-x")  'helm-ff-run-open-file-with-default-tool)
+  (define-key helm-find-files-map (kbd "C-c X")  'helm-ff-run-open-file-externally)
   (define-key helm-grep-mode-map (kbd "<return>")  'helm-grep-mode-jump-other-window)
   (define-key helm-grep-mode-map (kbd "n")  'helm-grep-mode-jump-other-window-forward)
   (define-key helm-grep-mode-map (kbd "p")  'helm-grep-mode-jump-other-window-backward)
-  
   (when (executable-find "curl")
     (setq helm-google-suggest-use-curl-p t))
   (setq helm-quick-update                     t ; do not display invisible candidates
-        helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
-        helm-buffers-fuzzy-matching           t ; fuzzy matching buffer names when non--nil
-        helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
-        helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
-        helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
-        helm-ff-file-name-history-use-recentf t
-        helm-semantic-fuzzy-match         t ; imenu fuzzy match
-        helm-imenu-fuzzy-match            t)
-  (helm-mode 1))
+      helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
+      helm-buffers-fuzzy-matching           t ; fuzzy matching buffer names when non--nil
+      helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
+      helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
+      helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
+      helm-ff-file-name-history-use-recentf t)
+  (helm-mode 1)
+(eval-after-load "winner"
+  '(progn 
+    (add-to-list 'winner-boring-buffers "*helm M-x*")
+    (add-to-list 'winner-boring-buffers "*helm mini*")
+    (add-to-list 'winner-boring-buffers "*Helm Completions*")
+    (add-to-list 'winner-boring-buffers "*Helm Find Files*")
+    (add-to-list 'winner-boring-buffers "*helm mu*")
+    (add-to-list 'winner-boring-buffers "*helm mu contacts*")
+    (add-to-list 'winner-boring-buffers "*helm-mode-describe-variable*")
+    (add-to-list 'winner-boring-buffers "*helm-mode-describe-function*"))))
 
 (use-package helm-swoop
   :ensure t
