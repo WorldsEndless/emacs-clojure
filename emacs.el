@@ -53,8 +53,6 @@
   :config
   (global-company-mode)
   (use-package "ac-html-csswatcher")
-  (use-package "company-auctex")
-  (use-package "company-web")
   (use-package "helm-company")
   (define-key company-mode-map (kbd "C-:") 'helm-company)
   (define-key company-active-map (kbd "C-:") 'helm-company)
