@@ -52,7 +52,6 @@
   :defer t
   :config
   (global-company-mode)
-  (use-package "ac-html-csswatcher")
   (use-package "helm-company")
   (define-key company-mode-map (kbd "C-:") 'helm-company)
   (define-key company-active-map (kbd "C-:") 'helm-company)
