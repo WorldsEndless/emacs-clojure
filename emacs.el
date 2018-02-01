@@ -66,7 +66,6 @@
 ;;   (company-quickhelp-mode 1)
 ;;   (setq company-quickhelp-delay 0.5))
 
-(use-package diminish)
 (use-package dired-filter
   :ensure t)
 (use-package dired-subtree
@@ -328,32 +327,10 @@ _._ Scroll→
   (setq recentf-max-menu-items 100)
   (recentf-mode 1))
 
-;; (use-package smart-mode-line
-;;   :ensure powerline
-;;   :config
-;;   (setq
-;;    sml/theme 'dark
-;;    sml/name-width 44
-;;    sml/mode-width 'full
-;;    sml/show-eol nil))
-
 (use-package spacemacs-common
   :ensure spacemacs-theme
   :config
   (load-theme 'spacemacs-dark t))
-
-(use-package frame
-  :config
-  (setq blink-cursor-blinks -1)
-  (blink-cursor-mode))
-
-(use-package shell
-  :config ;http://stackoverflow.com/questions/704616/something-wrong-with-emacs-shell
-  (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
-  
-  (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-  (add-to-list 'display-buffer-alist
-               '("^\\*shell\\*$" . (display-buffer-same-window)))) ;; don't open shell in a new window
 
 (use-package web-mode
   :config
