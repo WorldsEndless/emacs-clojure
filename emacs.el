@@ -365,7 +365,6 @@ _._ Scroll→
         cider-font-lock-dynamically '(macro core function var))
   (cider-repl-toggle-pretty-printing)
   (setq cider-cljs-lein-repl "(do (use 'figwheel-sidecar.repl-api) (start-figwheel!) (cljs-repl))")
-  (add-hook 'cider-repl-mode-hook #'paredit-mode)
   (defun figwheel-connect ()
     (interactive)
     (cider-connect "localhost" "7002")))
