@@ -6,7 +6,7 @@
         ("org" . "http://orgmode.org/elpa/")
         ("melpa-stable" . "http://stable.melpa.org/packages/")))
 (package-initialize)
-(package-install 'bind-key)
+;(package-install 'bind-key)
 (package-install 'use-package)
 
 (eval-when-compile
