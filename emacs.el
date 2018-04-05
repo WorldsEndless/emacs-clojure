@@ -368,3 +368,11 @@ _._ Scroll→
   (defun figwheel-connect ()
     (interactive)
     (cider-connect "localhost" "7002")))
+
+(use-package undo-tree
+  :ensure t
+  :delight undo-tree-mode
+  :bind (("C-x /" . undo-tree-visualize))
+  :config
+  (global-undo-tree-mode t)
+  )
