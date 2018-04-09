@@ -15,6 +15,15 @@
 
 (setq visible-bell t)
 
+;; MAC fix below for clojure, but shouldn't hurt any other system.
+(setenv "PATH"
+
+        (concat
+
+         (getenv "PATH") ":usr/local/bin"))
+
+(setq exec-path (append exec-path '("/usr/local/bin")))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;
 ;; BASIC KEY BINDINGS ;;
@@ -376,3 +385,8 @@ _._ Scroll→
   :config
   (global-undo-tree-mode t)
   )
+
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode))
