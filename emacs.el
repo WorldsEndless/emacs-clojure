@@ -407,3 +407,6 @@ _._ Scroll→
   :ensure t
   :config
   (which-key-mode))
+
+;; Add this line if you want to start in a particular file every time you start
+;; (find-file "~/workspace/Clojure/myproject/project.clj")
