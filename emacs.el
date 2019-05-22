@@ -2,7 +2,7 @@
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
         ("marmalade" . "http://marmalade-repo.org/packages/")
-        ("melpa" . "http://melpa.milkbox.net/packages/")
+	("melpa" . "https://melpa.org/packages/")
         ("org" . "http://orgmode.org/elpa/")
         ("melpa-stable" . "http://stable.melpa.org/packages/")))
 (package-initialize)
@@ -14,6 +14,8 @@
 (require 'bind-key)
 
 (setq visible-bell t)
+;; store back-up files in a temporary directory instead of leaving emacs-droppings
+(setq temporary-file-directory "~/.emacs.d/temporary_files")
 
 ;; MAC fix below for clojure, but shouldn't hurt any other system.
 (setenv "PATH"
@@ -48,12 +50,27 @@
 
 (use-package clojure-mode
   :ensure t
+  :init
+  (use-package flycheck-joker :ensure t)
+
   :config
   (defun my-clojure-mode-hook () 
-    (highlight-phrase "TODO" 'web-mode-comment-keyword-face) 
-    (yas-minor-mode 1))
-  (add-hook 'clojure-mode-hook #'my-clojure-mode-hook))
+    (highlight-phrase "TODO" 'web-mode-comment-keyword-face) ;; TODO add a correct face that doesn't depend on web-mode
+    ;(clj-refactor-mode 1)
+    (yas-minor-mode 1) 
+    (cljr-add-keybindings-with-prefix "C-c C-m"))
+  (add-hook 'clojure-mode-hook #'my-clojure-mode-hook)
+  (add-hook 'clojure-mode-hook 'flycheck)
+  (use-package flycheck-clj-kondo :ensure t
+    :config
+    (dolist (checkers '((clj-kondo-clj . clojure-joker)
+                    (clj-kondo-cljs . clojurescript-joker)
+                    (clj-kondo-cljc . clojure-joker)))
+      (flycheck-add-next-checker (car checkers) (cons 'error (cdr checkers))))))
 
+(use-package clojure-mode-extra-font-locking
+  :requires clojure-mode
+  :ensure t)
 
 (use-package company
   :ensure t
@@ -369,14 +386,14 @@ _._ Scroll→
 
 (use-package cider
   :ensure t
+  :pin melpa-stable
+  :bind (("C-c M-;" . cider-pprint-eval-last-sexp-to-comment))
   :config
   (setq cider-repl-use-clojure-font-lock t
-        cider-font-lock-dynamically '(macro core function var))
-  (cider-repl-toggle-pretty-printing)
-  (setq cider-cljs-lein-repl "(do (use 'figwheel-sidecar.repl-api) (start-figwheel!) (cljs-repl))")
-  (defun figwheel-connect ()
-    (interactive)
-    (cider-connect "localhost" "7002")))
+        cider-font-lock-dynamically '(macro core function var)
+  	cider-default-cljs-repl 'figwheel
+  	cider-repl-display-help-banner nil)
+  (cider-repl-toggle-pretty-printing))
 
 (use-package undo-tree
   :ensure t
