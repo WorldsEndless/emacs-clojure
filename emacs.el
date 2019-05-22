@@ -253,8 +253,7 @@ _._ Scroll→
                ("SPC" nil)
                ("C-SPC"  nil)
                ("." scroll-left)
-               ("," scroll-right)
-               ))
+               ("," scroll-right)))
   
   (global-set-key
    (kbd "M-g")
@@ -275,8 +274,7 @@ _._ Scroll→
      ("." scroll-left "scroll rightward")
      ("[" backward-page "back page")
      ("]" forward-page "forward page")
-     ("SPC" nil "cancel")
-     )))
+     ("SPC" nil "cancel"))))
 
 (use-package ibuffer
   :bind (("C-x C-b" . ibuffer))
@@ -400,8 +398,7 @@ _._ Scroll→
   :delight undo-tree-mode
   :bind (("C-x /" . undo-tree-visualize))
   :config
-  (global-undo-tree-mode t)
-  )
+  (global-undo-tree-mode t))
 
 (use-package which-key
   :ensure t
