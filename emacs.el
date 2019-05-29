@@ -57,10 +57,9 @@
   (defun my-clojure-mode-hook () 
     (highlight-phrase "TODO" 'web-mode-comment-keyword-face) ;; TODO add a correct face that doesn't depend on web-mode
     ;(clj-refactor-mode 1)
-    (yas-minor-mode 1) 
-    (cljr-add-keybindings-with-prefix "C-c C-m"))
+    (yas-minor-mode 1))
   (add-hook 'clojure-mode-hook #'my-clojure-mode-hook)
-  (add-hook 'clojure-mode-hook 'flycheck)
+  (add-hook 'clojure-mode-hook 'flycheck-mode)
   (use-package flycheck-clj-kondo :ensure t
     :config
     (dolist (checkers '((clj-kondo-clj . clojure-joker)
