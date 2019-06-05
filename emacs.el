@@ -45,6 +45,44 @@
 ;;;;;;;;;;;;;;;;;;;
 ;; PACKAGE SETUP ;;
 ;;;;;;;;;;;;;;;;;;;
+(use-package ace-popup-menu
+  :ensure t
+  :config
+  (ace-popup-menu-mode 1))
+
+(use-package ace-jump-mode
+  :ensure t
+  :bind (("C-c SPC" . ace-jump-mode))
+  :config
+  (setq ace-jump-mode-case-fold nil  ;; case sensitive
+        ace-isearch-use-function-from-isearch nil)
+  (global-ace-isearch-mode +1)
+  (setq ace-jump-mode-submode-list '(ace-jump-line-mode ace-jump-char-mode ace-jump-word-mode) ;; complementary to ace-isearch
+        ace-jump-mode-scope 'frame))
+
+(use-package ace-isearch
+  :ensure t
+  :demand t
+  :delight ace-isearch-mode
+  :config
+  (setq  ace-isearch-input-idle-delay 0.2
+         ace-isearch-input-length 9
+         ace-isearch-use-ace-jump (quote printing-char)
+         ace-isearch-function 'ace-jump-word-mode
+         ace-isearch-use-jump (quote printing-char)))
+
+(use-package ace-jump-zap
+  :ensure t
+  :bind (("M-z" . ace-jump-zap-to-char))
+  :config
+  (setq ajz/zap-function 'kill-region))
+
+(use-package anzu
+  :ensure t
+  :delight anzu-mode
+  :config (global-anzu-mode 1)
+  (setq anzu-minimum-input-length 4))
+
 (use-package cider-hydra
   :ensure t)
 
