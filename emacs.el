@@ -256,6 +256,7 @@ _._ Scroll→
                ("b" helm-mini)
                ("C-b"  helm-mini)
                ("f" helm-find-files)
+	       ("g" helm-projectile-grep :color blue)
                ("C-f"  helm-find-files)
                ("p" helm-projectile)
                ("C-p"  helm-projectile)
