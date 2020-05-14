@@ -170,6 +170,9 @@
       helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
       helm-ff-file-name-history-use-recentf t)
   (helm-mode 1)
+  (use-package helm-descbinds :ensure t
+    :config
+    (global-set-key (kbd "C-h k") 'helm-descbinds)) ;; great way to find keys
 (eval-after-load "winner"
   '(progn 
     (add-to-list 'winner-boring-buffers "*helm M-x*")
@@ -437,6 +440,10 @@ _._ Scroll→
   :bind (("C-x /" . undo-tree-visualize))
   :config
   (global-undo-tree-mode t))
+
+(use-package wgrep
+  :ensure t
+  :config (use-package wgrep-helm :ensure t))
 
 (use-package which-key
   :ensure t
