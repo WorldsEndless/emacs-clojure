@@ -16,6 +16,7 @@
 (setq visible-bell t)
 ;; store back-up files in a temporary directory instead of leaving emacs-droppings
 (setq temporary-file-directory "~/.emacs.d/temporary_files")
+(setq backup-directory-alist (quote ((".*" . "~/.emacs.d/temporary_files"))));; Make sure this directory exists
 
 ;; MAC fix below for clojure, but shouldn't hurt any other system.
 (setenv "PATH"
@@ -449,8 +450,6 @@ _._ Scroll→
   :ensure t
   :config
   (which-key-mode))
-
-(setq backup-directory-alist (quote ((".*" . "~/.emacs.d/temporary_files")))) ;; Make sure this directory exists
 
 ;; Add this line if you want to start in a particular file every time you start
 ;; (find-file "~/workspace/Clojure/myproject/project.clj")
