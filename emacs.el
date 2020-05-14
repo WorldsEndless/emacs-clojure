@@ -443,7 +443,7 @@ _._ Scroll→
   :config
   (which-key-mode))
 
-(setq backup-directory-alist (quote ((".*" . "~/.emacs.d/temporary_files"))))
+(setq backup-directory-alist (quote ((".*" . "~/.emacs.d/temporary_files")))) ;; Make sure this directory exists
 
 ;; Add this line if you want to start in a particular file every time you start
 ;; (find-file "~/workspace/Clojure/myproject/project.clj")
