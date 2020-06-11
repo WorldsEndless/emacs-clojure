@@ -430,10 +430,15 @@ _._ Scroll→
   :bind (("C-c M-;" . cider-pprint-eval-last-sexp-to-comment))
   :config
   (setq cider-repl-use-clojure-font-lock t
-        cider-font-lock-dynamically '(macro core function var)
-  	cider-default-cljs-repl 'figwheel
-  	cider-repl-display-help-banner nil)
-  (cider-repl-toggle-pretty-printing))
+	cider-font-lock-dynamically '(macro core function var)
+	cider-default-cljs-repl 'figwheel
+	cider-repl-display-help-banner nil
+	cider-repl-use-pretty-printing t)
+  (fset 'tsa/clojure-letvar-to-def
+	(lambda (&optional arg)
+	  "with cursor at a let-var, def it so you can proceed with repl debugging." 
+	  (interactive "p") (kmacro-exec-ring-item (quote ([40 100 101 102 32 C-right C-right 134217734 134217734 134217734 24 5 67108911 67108911] 0 "%d")) arg)))
+  (define-key clojure-mode-map (kbd "M-L") 'tsa/clojure-letvar-to-def))
 
 (use-package undo-tree
   :ensure t
