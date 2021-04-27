@@ -328,7 +328,6 @@ _._ Scroll→
 (use-package magit
   :ensure t
   :config
-  (global-magit-file-mode)
   (global-set-key "\C-xg" 'magit-status)
   (setq magit-diff-use-overlays nil))
 
@@ -455,6 +454,11 @@ _._ Scroll→
   :ensure t
   :config
   (which-key-mode))
+
+(setq mouse-wheel-scroll-amount '(2 ((shift) . 2))) ;; one line at a time
+(setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
+(setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
+(setq scroll-step 2) ;; keyboard scroll one line at a time
 
 ;; Add this line if you want to start in a particular file every time you start
 ;; (find-file "~/workspace/Clojure/myproject/project.clj")
