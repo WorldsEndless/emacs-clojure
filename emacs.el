@@ -155,7 +155,7 @@
     :straight (bookmark+ :type git :host github :repo "emacsmirror/bookmark-plus")
     :demand t
     :custom
-    (bmkp-last-as-first-bookmark-file "/home/torysa/emacs/.emacs.d/bookmarks")
+    (bmkp-last-as-first-bookmark-file "~/emacs/.emacs.d/bookmarks")
     (bookmark-save-flag 0)
     (bmkp-prompt-for-tags-flag nil)
     (bookmark-version-control t)
@@ -924,7 +924,6 @@ search modes defined in the new `dired-sort-toggle'.
 (use-package transient
   :after org
   ;; comes installed with Magit, no need to install
-  :config (tsa/safe-load-file "lisp/tsa-transient.el")
   :straight nil
   ;; Anything not in a binding below needs to be called-out as a command
   :commands (transient-define-prefix)
@@ -942,6 +941,330 @@ search modes defined in the new `dired-sort-toggle'.
   ("C-x M-e" . tsa/transient-w3m)
   ;("<f1>" . tsa/hydra-fkeys/body)
   ("<f12>" . tsa-transient-spelling))
+
+;;; Usage Functions
+(defun transient-ace-cmd ()
+  (interactive)
+  (ace-window 1)
+  (add-hook 'ace-window-end-once-hook
+	    'tsa/transient-window))
+
+(defun tsa/split-vertical ()
+  (interactive)
+  (split-window-right)
+  (windmove-right))
+
+(defun tsa/split-horizontal ()
+  (interactive)
+  (split-window-below)
+  (windmove-down))
+
+(defun tsa/screen-swap ()
+  (interactive)
+  (ace-window 4)
+  ;; (add-hook 'ace-window-end-once-hook
+  ;; 	    'transient-window)
+  )
+
+(defun tsa/del-window ()
+  (interactive)
+  (ace-window 16)
+  (add-hook 'ace-window-end-once-hook
+	    'transient-window))
+
+(defun tsa/split-window-4 ()
+  "Split into 4 windows"
+ (interactive)
+ (when (= 1 (length (window-list)))
+   (split-window-vertically)
+   (split-window-horizontally)
+   (other-window 2)
+   (split-window-horizontally)))
+
+(defun tsa/correct-all () 
+  (interactive)
+  (setq current-prefix-arg '(4))
+  (call-interactively 'flyspell-correct-wrapper))
+
+(defun tsa/projectile (&optional choose-project)
+  "Open the scratch buffer. With c-u, in other window."
+  (interactive "P")
+  (let ((scratch "*scratch*"))
+    (if choose-project (projectile-switch-project)
+      (projectile-find-file))))
+
+(defun tsa/open-scratch (&optional same-window)
+  "Open the scratch buffer. With c-u, in other window."
+  (interactive "P")
+  (let ((scratch "*scratch*"))
+    (if same-window (switch-to-buffer scratch)
+      (switch-to-buffer-other-window scratch))))
+
+(transient-define-prefix tsa/transient-highlight ()
+  "Persistent Highlights"
+  [["Highlight"
+    ("r" "Highlight regexp" highlight-lines-matching-regexp)
+    ;("c" "Column Highlight Mode" column-highlight-mode)
+    ("X" "highlight changes (global)" global-highlight-changes-mode)
+    ("x" "Highlight changes (local)" highlight-changes-mode)
+    ;("e" "Global highlight edits" global-semantic-highlight-edits-mode)
+    ("l" "Highlight lines" highlight-lines-matching-regexp)
+    ("b" "Compare buffers" highlight-compare-buffers)
+    ("f" "Compare file" highlight-compare-with-file)
+    ("p" "Highlight Phrase" highlight-phrase)
+    ("r" "Highlight regexp" highlight-regexp)
+    ("." "Highlight symbol at point" highlight-symbol-at-point)
+    ("u" "Unhighlight" unhighlight-regexp)
+    ]])
+
+(transient-define-prefix tsa/transient-multiplecursors ()
+  "MultiCursors"
+  :transient-suffix 'transient--do-stay  
+  [["Multiple Cursors"
+    ("n" "next~" mc/mark-next-lines)
+    ("N" "un next~" mc/unmark-next-like-this)
+    ("p" "prev~" mc/mark-previous-like-this)
+    ("P" "un prev~" mc/unmark-previous-like-this)
+    ("a" "all~" mc/mark-all-like-this)
+    ("r" "all-region" mc/mark-all-in-region)
+    ("d" "all-dwim" mc/mark-all-dwim)
+    ("." "mark-pop" mc/mark-pop)
+    ("w" "words" mc/mark-all-words-like-this)
+    ("#" "numbers" mc/insert-numbers)]])
+
+(transient-define-prefix tsa/transient-w3m ()
+  "W3M"
+  ["W3M"
+   ("e" "🔍 search" w3m-search)
+   ("n" "🏠 new" w3m)
+   ("h" "history" w3m-db-history)
+   ("b" "buffers" w3m-select-buffer)
+   ])
+
+(transient-define-prefix tsa-transient-spelling ()
+  "Spelling"
+  ["Spelling"
+   ("<f12>" "spell buffer" flyspell-buffer :transient t)
+   ("<f11>" "spell correct" tsa/correct-all)
+   ("<f10>" "one correct" flyspell-correct-wrapper)]
+  )
+
+(transient-define-prefix tsa/transient-shell
+  "Shell commands to be used"
+  ["Shell Commands"
+   [("z" "bettersh" better-shell-shell)
+    ("r" "remote" better-shell-remote-open)
+    ("e" "eshell" eshell)
+    ("t" "term" term)
+    ]])
+
+(transient-define-prefix tsa/transient-help ()
+  "Help commands that I use. A subset of C-h with others thrown in."
+  ["Help Commands"
+   ["Mode & Bindings"
+    ("m" "Mode" describe-mode)
+    ("b" "Major Bindings" which-key-show-full-major-mode)
+    ("B" "Minor Bindings" which-key-show-full-minor-mode-keymap)
+    ("d" "Descbinds" tsa/consult-descbinds)
+    ("D" "Descbinds" Helper-describe-bindings)
+    ("t" "Top Bindings  " which-key-show-top-level)]
+   ["Describe"
+    ("C" "Command" helpful-command)
+    ("f" "Function" helpful-callable)
+    ("v" "Variable" helpful-variable)
+    ("k" "Key" helpful-key)
+    ("c" "Key Briefly" describe-key-briefly)
+    ]
+   ["Info on"
+    ("C-m" "Linux Manual" man)
+    ("C-c" "Emacs Command" Info-goto-emacs-command-node)
+    ("C-f" "Function" describe-function)
+    ("C-v" "Variable" describe-variable)     
+    ("C-k" "Emacs Key" Info-goto-emacs-key-command-node)
+    ]
+   ["Goto Source"
+    ("L" "Library" find-library-other-frame)
+    ("F" "Function" find-function-other-frame)
+    ("V" "Variable" find-variable-other-frame)
+    ("K" "Key" find-function-on-key-other-frame)
+    ]
+   ]
+  [
+   ["Internals"
+    ("u" "Insert Unicode Char" insert-char)
+    ("I" "Input Method" describe-input-method)
+    ("G" "Language Env" describe-language-environment)
+    ("S" "Syntax" describe-syntax)
+    ("O" "Coding System" describe-coding-system)
+    ("C-o" "Coding Brief" describe-current-coding-system-briefly)
+    ("T" "Display Table" describe-current-display-table)
+    ("e" "Echo Messages" view-echo-area-messages)
+    ("l" "Lossage" view-lossage)
+    ]
+   ["Describe"
+    ("s" "Symbol" helpful-symbol)
+    ("." "At Point   " helpful-at-point)
+    ("C-f" "Face" describe-face)
+    ("w" "Where Is" where-is)
+    ("=" "Position" what-cursor-position)
+    ]
+   ["Info Manuals"
+    ("C-i" "Info" info)
+    ("C-4" "Other Window " info-other-window)
+    ("C-e" "Emacs" info-emacs-manual)
+    ("C-m" "Linux Man" man)
+    ]
+   ]
+  )
+
+(transient-define-prefix tsa/transient-global-org
+  "Orgmode Master Transient"
+  ;; (:color blue
+  ;; :hint nil
+  ;; :body-pre (setq exwm-input-line-mode-passthrough ''t)
+  ;; :post (setq exwm-input-line-mode-passthrough nil))
+  [["Clocks"
+    ("C-t" "timer start"  org-timer-start)
+    ("C-s" "timer stop"  org-timer-stop)
+    ("w" "clock-in to recent task" org-mru-clock-in)
+    ("W" "Clock in the last task" org-clock-in-last)
+    ("o" "Clock Out" org-clock-out)
+    ("j" "goto clock" org-clock-goto)
+    ("J" "Go to a clock" (lambda () (interactive) (org-clock-goto '(4))))]
+
+   ["Timers"
+    ("r" "Set Timer" org-timer-set-timer)
+    ("p" "Print org timer" org-timer)]
+
+   ["Hugo Blogging"
+    ("h" "export to hugo" hugo)
+    ("u" "upload" hugo-publish-up)
+    ("t" "publish and upload" hugo-total)
+    ]
+
+   ["Misc"
+    ("g" "Export as Markdown" org-gfm-export-as-markdown)
+    ("\\" "toggle pretty entities" org-toggle-pretty-entities)
+    ("l" "go to last stored capture" org-capture-goto-last-stored)
+    ("," "set org priority" org-priority)]])
+
+(defun tsa/move-splitter-left (arg)
+  "Move window splitter left."
+  (interactive "p")
+  (if (let ((windmove-wrap-around))
+	(windmove-find-other-window 'right))
+      (shrink-window-horizontally arg)
+    (enlarge-window-horizontally arg)))
+
+(defun tsa/move-splitter-right (arg)
+  "Move window splitter right."
+  (interactive "p")
+  (if (let ((windmove-wrap-around))
+	(windmove-find-other-window 'left))
+      (enlarge-window-horizontally arg)
+    (shrink-window-horizontally arg)))
+
+(defun tsa/move-splitter-up (arg)
+  "Move window splitter up."
+  (interactive "p")
+  (if (let ((windmove-wrap-around))
+	(windmove-find-other-window 'up))
+      (enlarge-window arg)
+    (shrink-window arg)))
+
+(defun tsa/exwm-workspace-swap ()
+  "Swap workspaces, querying for which to swap if there are more than 2"
+  (interactive)
+  (if (= 2 (exwm-workspace--count))
+      (let ((w1 (first exwm-workspace--list))
+	    (w2 (second exwm-workspace--list)))
+	(exwm-workspace-swap w1 w2))
+    (call-interactively 'exwm-workspace-swap)))
+
+(defun tsa/move-splitter-down (arg)
+  "Move window splitter down."
+  (interactive "p")
+  (if (let ((windmove-wrap-around))
+	(windmove-find-other-window 'up))
+      (shrink-window arg)
+    (enlarge-window arg)))
+
+(transient-define-prefix tsa/transient-scroll ()
+  "WIP Navigate screen repeatably. but suffix or infix don't seem to do it"
+  [["Navigate Viewport"
+    ("," "scroll leftward" scroll-right)
+    ("." "scroll rightward" scroll-left)
+    ("[" "backward a page" backward-page)
+    ("]" "forward a page" forward-page)]])
+
+(transient-define-prefix tsa/transient-goto ()
+  "Buffer nav"
+  [["Go To in Buffer"
+    ("g" "line" goto-line)
+    ("TAB" "column" move-to-column)
+    ("l" "jump to visible line" ace-jump-line-mode)
+    ("c" "char" goto-char)
+    ("o" "ace" ace-link)   
+    ]
+   ["Navigate Viewport"
+    ("[" "Navigate Viewport" tsa/transient-scroll)
+    ]
+   ["Errors"
+    ("n" "next err" next-error)
+    ("p" "prev err" previous-error)]
+
+   ["Replace"
+    ("r" "query replace simple" anzu-query-replace)
+    ("R" "query replace regexp" anzu-query-replace-regexp)
+    ("t" "query replace thing at cursor" anzu-query-replace-at-cursor)
+    ("T" "clobber-replace thing at cursor" anzu-query-replace-at-cursor-thing)
+    ]])
+
+(transient-define-prefix tsa/transient-bbdb ()
+  "BBDB Commands"
+  ["BBDB"
+   ("b" "Ivy BBDB" tsa/bbdb-list)
+   ("B" "BBDB" bbdb)
+   ("c" "Create" bbdb-create)
+   ("x" "X-Field" bbdb-search-xfields)
+   ("s" "Snarf" bbdb-snarf)]
+  )
+
+(defun tsa/toggle-ace-mode ()
+  "Toggle whether to search by word or char"
+  (interactive)
+  (if (function-equal ace-isearch-function 'ace-jump-char-mode)
+      (progn 
+	(setq ace-isearch-function 'ace-jump-word-mode)
+	(message "Jump-Word Mode"))
+    (progn 
+      (setq ace-isearch-function 'ace-jump-char-mode)
+      (message "Jump-Char Mode"))))
+
+(transient-define-prefix tsa/transient-fkeys
+  "Transient for the <f#> keys"
+  ["F-Keys"
+  ("<f1>" "hide modeline" tsa/hide-mode-line)
+  ("<C-f1>" "show filename" tsa/show-file-name)
+  ("<f2>" "prev msg" tsa/insert-previous-message)
+  ("<f3>" "Toggle search word//char" tsa/toggle-ace-mode)
+  ("<f4>" "shorturl" tsa/yourls-shorten-at-point)
+  ("<f5>" "truncate lines" toggle-truncate-lines)
+  ("<f6>" "hl-line mode" global-hl-line-mode)
+  ("<S-f6>" "hicol" column-highlight-mode )
+  ("<f7>" "line num mode" display-line-numbers-mode)
+  ("<C-f7" "scrollbar" toggle-scroll-bar)
+  ("r" "revert buffer" revert-buffer)])
+
+(defun tsa/hide-mode-line (arg)
+  "Hide or global hide-modeline for a transient. Doesn't work, though."  
+  (interactive "p")
+  (message (format "Arg is: %d" arg))
+  (cond
+   ((equal arg 1)
+    ((lambda () (interactive) (hide-mode-line-mode))))
+   ((equal arg 4)
+    ((lambda () (interactive) (global-hide-mode-line-mode))))))
 
 (transient-define-prefix tsa/transient-window ()
   "Window navigation transient"
@@ -1037,3 +1360,359 @@ search modes defined in the new `dired-sort-toggle'.
   (add-to-list 'yas-snippet-dirs "snippets/yasnippet-snippets/snippets")
   (use-package clojure-snippets )
   (yas-global-mode))
+
+;;; Usage Functions
+(defun tsa/hydra-ace-cmd ()
+  (interactive)
+  (ace-window 1)
+  (add-hook 'ace-window-end-once-hook
+	    'tsa/transient-window))
+
+(defun hydra-split-vertical ()
+  (interactive)
+  (split-window-right)
+  (windmove-right))
+
+(defun hydra-split-horizontal ()
+  (interactive)
+  (split-window-below)
+  (windmove-down))
+
+(defun tsa/hydra-screen-swap ()
+  (interactive)
+  (ace-window 4)
+  (add-hook 'ace-window-end-once-hook
+	    'tsa/hydra-window))
+
+(defun hydra-del-window ()
+  (interactive)
+  (ace-window 16)
+  (add-hook 'ace-window-end-once-hook
+	    'tsa/transient-window))
+
+(defun tsa/split-window-4 ()
+  "Split into 4 windows"
+ (interactive)
+ (if (= 1 (length (window-list)))
+     (progn (split-window-vertically)
+	    (split-window-horizontally)
+	    (other-window 2)
+	    (split-window-horizontally))))
+
+(defun tsa/correct-all () 
+  (interactive)
+  (setq current-prefix-arg '(4))
+  (call-interactively 'flyspell-correct-wrapper))
+
+(defun tsa/projectile (&optional choose-project)
+  "Open the scratch buffer. With c-u, in other window."
+  (interactive "P")
+  (let ((scratch "*scratch*"))
+    (if choose-project (projectile-switch-project)
+      (projectile-find-file))))
+
+(defun tsa/open-scratch (&optional same-window)
+  "Open the scratch buffer. With c-u, in other window."
+  (interactive "P")
+  (let ((scratch "*scratch*"))
+    (if same-window (switch-to-buffer scratch)
+      (switch-to-buffer-other-window scratch))))
+
+(defhydra tsa/hydra-multiplecursors (global-map "C-;"
+					    :color red)
+  "MultiCursors"
+  ("n" mc/mark-next-lines "next~")
+  ("N" mc/unmark-next-lines "un next~")
+  ("p" mc/mark-previous-lines "prev~")
+  ("P" mc/unmark-previous-lines "un prev~")
+  ("a" mc/mark-all-like-this "all~")
+  ("r" mc/mark-all-in-region "all-region")
+  ("d" mc/mark-all-dwim "all-dwim")
+  ("." mc/mark-pop "mark-pop")
+  ("w" mc/mark-all-words-like-this "words")
+  ("#" mc/insert-numbers "numbers")
+  ("SPC" nil) )
+
+(defhydra tsa/hydra-w3m (:color blue)
+   "EW3M"
+   ("e" w3m-search "w3m 🔍")
+   ("E" w3m "w3m 🏠")
+   ("h" w3m-db-history "history")
+   ("b" w3m-select-buffer "buffers")
+   )
+
+;; "Eww"
+;; ("e" eww "eww")
+;; ("b" eww-switch-to-buffer "switch")
+;; ("B" eww-list-buffers "buffers")
+;;"h" eww-list-histories "history")
+
+(global-set-key
+ (kbd "<f12>")
+ (defhydra tsa/hydra-spelling (:color red)
+   "Shell"
+   ("<f12>" flyspell-buffer "spell buffer")
+   ("<f11>" tsa/correct-all "spell correct" :color blue)
+   ("<f10>" flyspell-correct-wrapper "one correct")))
+
+(global-set-key
+ (kbd "C-z")
+ (defhydra tsa/hydra-shells (:color blue)
+   "Shell"
+   ("z" better-shell-shell "bettersh")
+   ("C-z" better-shell-shell "bettersh")
+   ("Z" better-shell-remote-open "better-remote")
+   ("e" eshell "eshell")
+   ("t" term "term")))
+
+(global-set-key
+ (kbd "C-c o")
+ (defhydra tsa/hydra-global-org (:color blue
+			    :hint nil
+			    :body-pre (setq exwm-input-line-mode-passthrough ''t)
+			    :post (setq exwm-input-line-mode-passthrough nil))
+
+   ("C-t"  org-timer-start "⏰ start")
+   ("C-s"  org-timer-stop "⏰ stop")
+   ("C-S"  org-timer-stop)
+   ;; Need to be at timer
+   ("r" org-timer-set-timer "⏰ set")
+   ("C-r"  org-timer-set-timer)
+   ;; Print timer value to buffer0:00:00 
+   ("p" org-timer "⏲ stat")
+   ("C-p"  org-timer)
+   ("w" (org-mru-clock-in ;org-clock-in '(4)
+	 ) "🕑 clock-in")
+   ("C-w"  (org-clock-in '(4)))
+   ("o" org-clock-out "🕕 out")
+   ("C-o"  org-clock-out)
+   ;; Visit the clocked task from any buffer
+   ("j" org-clock-goto "⮏")
+   ("C-j"  org-clock-goto)
+   ("l" org-capture-goto-last-stored "⮰")
+   ("C-l"  org-capture-goto-last-stored)
+   ("," org-priority "orgp⤴")
+   ("C-,"  org-priority)
+   ("h" hugo "✍ hugo")
+   ("u" hugo-publish-up "✍ pub")
+   ("t" hugo-total "✍ total")
+   ("g" org-gfm-export-as-markdown "as🅫")
+   ("\\" org-toggle-pretty-entities "λ")
+   ("W" org-clock-in-last "Clock in the last task")      
+   ("J" (lambda () (interactive) (org-clock-goto '(4))) "Go to a clock")))
+
+(require 'windmove) ; also already added in my emacs-el
+
+(defun tsa/hydra-move-splitter-left (arg)
+  "Move window splitter left."
+  (interactive "p")
+  (if (let ((windmove-wrap-around))
+	(windmove-find-other-window 'right))
+      (shrink-window-horizontally arg)
+    (enlarge-window-horizontally arg)))
+
+(defun tsa/hydra-move-splitter-left (arg)
+  "Move window splitter right."
+  (interactive "p")
+  (if (let ((windmove-wrap-around))
+	(windmove-find-other-window 'right))
+      (enlarge-window-horizontally arg)
+    (shrink-window-horizontally arg)))
+
+(defun tsa/hydra-move-splitter-up (arg)
+  "Move window splitter up."
+  (interactive "p")
+  (if (let ((windmove-wrap-around))
+	(windmove-find-other-window 'up))
+      (enlarge-window arg)
+    (shrink-window arg)))
+
+(defun tsa/exwm-workspace-swap ()
+  "Swap workspaces, querying for which to swap if there are more than 2"
+  (interactive)
+  (if (= 2 (exwm-workspace--count))
+      (let ((w1 (first exwm-workspace--list))
+	    (w2 (second exwm-workspace--list)))
+	(exwm-workspace-swap w1 w2))
+    (call-interactively 'exwm-workspace-swap)))
+
+(defun tsa/hydra-move-splitter-down (arg)
+  "Move window splitter down."
+  (interactive "p")
+  (if (let ((windmove-wrap-around))
+	(windmove-find-other-window 'up))
+      (shrink-window arg)
+    (enlarge-window arg)))
+
+(bind-key* "C-M-o"
+	   (defhydra tsa/hydra-window (:body-pre (setq exwm-input-line-mode-passthrough ''t)
+					     :post (setq exwm-input-line-mode-passthrough nil))
+	     "
+Movement^^        ^Split^         ^Switch^		^Resize^
+----------------------------------------------------------------
+_h_ ←       	_v_ertical    	_b_uffer		_q_ X←
+_j_ ↓        	_x_ horizontal	_f_ind files	_w_ X↓
+_k_ ↑        	_z_ undo      	_a_ce 1		_e_ X↑
+_l_ →        	_Z_ redo      	_s_wap		_r_ X→
+_F_ollow	_S_witch  	_D_lt Other   			max_i_mize
+_SPC_ cancel	_o_nly this   	_d_elete	
+_,_ Scroll←			_p_roject
+_._ Scroll→                     _g_rep
+"
+	     ("h" windmove-left )
+	     ("C-h"  windmove-left )
+	     ("j" windmove-down )
+	     ("C-j"  windmove-down )
+	     ("k" windmove-up )
+	     ("C-k"  windmove-up )
+	     ("l" windmove-right )
+	     ("C-l"  windmove-right )
+	     ("q" tsa/hydra-move-splitter-left)
+	     ("C-q"  tsa/hydra-move-splitter-left)
+	     ("w" tsa/hydra-move-splitter-down)
+	     ("C-w"  tsa/hydra-move-splitter-down)
+	     ("e" tsa/hydra-move-splitter-up)
+	     ("C-e"  tsa/hydra-move-splitter-up)
+	     ("r" tsa/hydra-move-splitter-right)
+	     ("C-r"  tsa/hydra-move-splitter-right)
+	     ("b" switch-to-buffer)
+	     ("C-b"  switch-to-buffer)
+	     ("f" find-file)
+	     ("C-f"  find-file)
+	     ("g" consult-git-grep :color blue)
+	     ("p" tsa/projectile)
+	     ("C-p"  tsa/projectile)
+	     ("F" follow-mode)
+	     ("C-F"  follow-mode)
+	     ("a" tsa/hydra-ace-cmd)
+	     ("C-a"  tsa/hydra-ace-cmd)
+	     ("v" tsa/split-vertical)
+	     ("C-v"  tsa/split-vertical)
+	     ("x" tsa/split-horizontal)
+	     ("C-x"  tsa/split-horizontal)
+	     ("s" tsa/screen-swap)
+	     ("C-s"  tsa/screen-swap)
+	     ("S" toggle-window-split)
+	     ("C-S" toggle-window-split)
+	     ("d" delete-window)
+	     ("C-d"  delete-window)
+	     ("D" tsa/del-window)
+	     ("C-D"  tsa/del-window)
+	     ("o" delete-other-windows)
+	     ("C-o"  delete-other-windows)
+	     ("i" ace-maximize-window)
+	     ("C-i"  ace-maximize-window)
+	     ("z" (progn
+		    (winner-undo)
+		    (setq this-command 'winner-undo)))
+	     ("C-z" (progn
+		      (winner-undo)
+		      (setq this-command 'winner-undo)))
+	     ("Z" winner-redo)
+	     ("C-Z"  winner-redo)
+	     ("SPC" nil)
+	     ("C-SPC"  nil)
+	     ("." scroll-left)
+	     ("," scroll-right)
+	     ("4" tsa/split-window-4)
+	     ("=" tsa/open-scratch "Scratch")
+	     ("t" projectile-toggle-between-implementation-and-test "test<>imp")
+	     ("`" tsa/exwm-workspace-swap "exwm swap")))
+
+(global-set-key
+ (kbd "M-g")
+ (defhydra tsa/hydra-goto ()
+   "Go To"
+   ("g" goto-line "line") ; reserve for normal M-g g function (may be different in some modes)
+   ("M-g" goto-line "line")
+   ("TAB" move-to-column "col")
+   ("l" ace-jump-line-mode "ace line" :color blue)
+   ("c" goto-char "char")
+   ("n" next-error "next err")
+   ("o" ace-link "ace" :color blue)
+   ("p" previous-error "prev err")
+   ("r" anzu-query-replace "qrep")
+   ("R" anzu-query-replace-regexp "rep regex")
+   ("t" anzu-query-replace-at-cursor "rep cursor")
+   ("T" anzu-query-replace-at-cursor-thing "rep cursor thing")
+   ("," scroll-right "scroll leftward")
+   ("." scroll-left "scroll rightward")
+   ("[" backward-page "back page")
+   ("]" forward-page "forward page")
+   ("SPC" nil "cancel")))
+
+(defhydra tsa/hydra-gnus-group ()
+  "Gnus Group"
+					;    ("TAB" gnus-topic-indent "indent")
+					;    ("<tab>" gnus-topic-indent "indent")
+  ("#" gnus-topic-mark-topic "mark")
+  ("u" gnus-topic-unmark-topic "unmark")
+  ("C" gnus-topic-copy-matching "Copy-m")
+  ("D" gnus-topic-remove-group "DLT")
+  ("H" gnus-topic-toggle-display-empty-topics "Hide Empty")
+  ("M" gnus-topic-move-matching "Move-m")
+  ("S" gnus-topic-sort-map "sort")
+  ("c" gnus-topic-copy-group "copy")
+  ("h" gnus-topic-hide-topic "hide")
+  ("j" gnus-topic-jump-to-topic "jump")
+  ("m" gnus-topic-move-group "move")
+  ("N" gnus-topic-create-topic "new")
+  ("n" gnus-topic-goto-next-topic "→")
+					;    ("TAB" gnus-topic-goto-next-topic "→")
+  ("<tab>" gnus-topic-goto-next-topic "→")
+  ("p" gnus-topic-goto-previous-topic "←")
+					;    ("BACKTAB" gnus-topic-goto-previous-topic "←")
+  ("<backtab>" gnus-topic-goto-previous-topic "←")
+  ("r" gnus-topic-rename "rename")
+  ("s" gnus-topic-fold-this-topic "show")
+  ("DEL" gnus-topic-delete "delete")
+  ("SPC" nil "cancel"))
+
+(global-set-key
+ (kbd "C-c b")
+ (defhydra tsa/hydra-bbdb ()
+   "Go To"
+   ("b" tsa/bbdb-list "Ivy BBDB")
+   ("B" bbdb "BBDB")
+   ("c" bbdb-create "Create")
+   ("x" bbdb-search-xfields "X-Field")
+   ("s" bbdb-snarf "Snarf")
+   ("SPC" nil "cancel")
+   ))
+
+(defun tsa/toggle-ace-mode ()
+  "Toggle whether to search by word or char"
+  (interactive)
+  (if (function-equal ace-isearch-function 'ace-jump-char-mode)
+      (progn 
+	(setq ace-isearch-function 'ace-jump-word-mode)
+	(message "Jump-Word Mode"))
+    (progn 
+      (setq ace-isearch-function 'ace-jump-char-mode)
+      (message "Jump-Char Mode"))))
+
+(defun tsa/hide-mode-line (arg)
+  "Hide or global hide-modeline for a hydra. Doesn't work, though."  
+  (interactive "p")
+  (message (format "Arg is: %d" arg))
+  (cond
+   ((equal arg 1)
+    ((lambda () (interactive) (hide-mode-line-mode))))
+   ((equal arg 4)
+    ((lambda () (interactive) (global-hide-mode-line-mode))))))
+
+(defhydra tsa/hydra-fkeys
+  (:color red)
+  "F Keys"
+  ("<f1>" tsa/hide-mode-line "modeline" :color blue)
+  ("<C-f1" tsa/show-file-name "filename" :color blue)
+  ("<f2>" tsa/insert-previous-message "prev msg")
+  ("<f3>" tsa/toggle-ace-mode "Search w//c")
+  ("<f4>" tsa/yourls-shorten-at-point "shorturl")
+  ("<f5>" toggle-truncate-lines "truncate" :color blue)
+  ("<f6>" global-hl-line-mode "hlline")
+  ("<S-f6>" column-highlight-mode  "hicol")
+  ("<f7>" display-line-numbers-mode "lnum")
+  ("<C-f7" toggle-scroll-bar "scrollbar")
+  ("r" revert-buffer "revert")
+  ("SPC" nil "cancel" :color blue))

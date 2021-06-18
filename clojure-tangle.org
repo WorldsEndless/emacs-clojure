@@ -1,12 +1,5 @@
-#+Title: Emacs Generation File
+#+Title: Clojure Emacs Generation File
 #+AUTHOR: Tory S. Anderson
-
-* CANCELED Make this mostly all go to emacs.el
-+Except for external lisp files and gnus.el+
-I will maintain separated files to make git better
-
-* emacs-sandbox
-  For testing with better -Q use https://github.com/alphapapa/emacs-sandbox.sh
 
 * emacs.el
 ** Preamble
@@ -1374,7 +1367,6 @@ SSH and remote-file editing easily
        (use-package transient
 	 :after org
 	 ;; comes installed with Magit, no need to install
-	 :config (tsa/safe-load-file "lisp/tsa-transient.el")
 	 :straight nil
 	 ;; Anything not in a binding below needs to be called-out as a command
 	 :commands (transient-define-prefix)
@@ -1393,22 +1385,15 @@ SSH and remote-file editing easily
 	 ;("<f1>" . tsa/hydra-fkeys/body)
 	 ("<f12>" . tsa-transient-spelling))
  #+end_src
-**** tsa-transient.el
+**** tsa-transient
 The Transient commands I use.
-
-***** Preamble
-  #+BEGIN_SRC elisp :tangle lisp/tsa-transient.el
-  ;; THIS FILE IS GENERATED
-  ;; Miscellaneous functions
-  ;; Tory S. Anderson (concat "mail" "@" "toryanderson" ".com")
-  #+END_SRC
 
 ***** Transient window and buffer navigation
 ****** Helper functions
 ***** transient-ace-cmd
   Ace-window but go back to the Transient
 
-  #+BEGIN_SRC elisp :tangle lisp/tsa-transient.el
+  #+BEGIN_SRC elisp :tangle emacs.el
     ;;; Usage Functions
     (defun transient-ace-cmd ()
       (interactive)
@@ -1420,7 +1405,7 @@ The Transient commands I use.
 ******* tsa/split-vertical
  Split window vertically and move to the split
 
- #+BEGIN_SRC elisp :tangle lisp/tsa-transient.el
+ #+BEGIN_SRC elisp :tangle emacs.el
     (defun tsa/split-vertical ()
       (interactive)
       (split-window-right)
@@ -1429,7 +1414,7 @@ The Transient commands I use.
 ******* tsa/split-horizontal
  Split window horizontally and move to the split
 
- #+BEGIN_SRC elisp :tangle lisp/tsa-transient.el
+ #+BEGIN_SRC elisp :tangle emacs.el
     (defun tsa/split-horizontal ()
       (interactive)
       (split-window-below)
@@ -1438,7 +1423,7 @@ The Transient commands I use.
 ******* tsa/screen-swap
  Swap two screens (windows) with eachother, then back to transient.
 
- #+BEGIN_SRC elisp :tangle lisp/tsa-transient.el
+ #+BEGIN_SRC elisp :tangle emacs.el
    (defun tsa/screen-swap ()
      (interactive)
      (ace-window 4)
@@ -1449,7 +1434,7 @@ The Transient commands I use.
 ******* tsa/del-window
  Kill a window
 
- #+BEGIN_SRC elisp :tangle lisp/tsa-transient.el
+ #+BEGIN_SRC elisp :tangle emacs.el
    (defun tsa/del-window ()
      (interactive)
      (ace-window 16)
@@ -1459,7 +1444,7 @@ The Transient commands I use.
 ******* tsa/split-window-4
  For large screens (like my TV), make the screen into a quad. Do nothing if we already have any splits.
 
- #+BEGIN_SRC elisp :tangle lisp/tsa-transient.el
+ #+BEGIN_SRC elisp :tangle emacs.el
    (defun tsa/split-window-4 ()
      "Split into 4 windows"
     (interactive)
@@ -1470,7 +1455,7 @@ The Transient commands I use.
       (split-window-horizontally)))
  #+END_SRC
 ******* tsa/correct-all
- #+BEGIN_SRC elisp :tangle lisp/tsa-transient.el
+ #+BEGIN_SRC elisp :tangle emacs.el
    (defun tsa/correct-all () 
      (interactive)
      (setq current-prefix-arg '(4))
@@ -1478,7 +1463,7 @@ The Transient commands I use.
 #+END_SRC
 ******* tsa/projectile
       Choose files from this project or (=C-u=) choose projects. 
-#+BEGIN_SRC  elisp :tangle lisp/tsa-transient.el
+#+BEGIN_SRC  elisp :tangle emacs.el
   (defun tsa/projectile (&optional choose-project)
     "Open the scratch buffer. With c-u, in other window."
     (interactive "P")
@@ -1488,7 +1473,7 @@ The Transient commands I use.
 #+END_SRC
 ******* tsa/open-scratch
       open or switch to scratch buffer.
-#+BEGIN_SRC  elisp :tangle lisp/tsa-transient.el
+#+BEGIN_SRC  elisp :tangle emacs.el
   (defun tsa/open-scratch (&optional same-window)
     "Open the scratch buffer. With c-u, in other window."
     (interactive "P")
@@ -1500,7 +1485,7 @@ The Transient commands I use.
 instead of hydra
 
 ****** tsa/transient-highlight
- #+BEGIN_SRC elisp :tangle lisp/tsa-transient.el
+ #+BEGIN_SRC elisp :tangle emacs.el
    (transient-define-prefix tsa/transient-highlight ()
      "Persistent Highlights"
      [["Highlight"
@@ -1520,7 +1505,7 @@ instead of hydra
  #+END_SRC
 
 ****** tsa/transient-multiplecursors
- #+BEGIN_SRC elisp :tangle lisp/tsa-transient.el
+ #+BEGIN_SRC elisp :tangle emacs.el
     (transient-define-prefix tsa/transient-multiplecursors ()
       "MultiCursors"
       :transient-suffix 'transient--do-stay  
@@ -1538,7 +1523,7 @@ instead of hydra
  #+END_SRC
 ****** tsa/transient-w3m
 eww helpers
- #+BEGIN_SRC elisp :tangle lisp/tsa-transient.el
+ #+BEGIN_SRC elisp :tangle emacs.el
    (transient-define-prefix tsa/transient-w3m ()
      "W3M"
      ["W3M"
@@ -1551,7 +1536,7 @@ eww helpers
 ****** tsa/transient-spelling
 Spell check convenience.
 
- #+BEGIN_SRC elisp :tangle lisp/tsa-transient.el
+ #+BEGIN_SRC elisp :tangle emacs.el
    (transient-define-prefix tsa-transient-spelling ()
      "Spelling"
      ["Spelling"
@@ -1564,7 +1549,7 @@ Spell check convenience.
 ****** tsa/transient-shell
 Having the variety of shell-types available at fingertip. better-shell is easily the most common, though.
 
- #+BEGIN_SRC elisp :tangle lisp/tsa-transient.el
+ #+BEGIN_SRC elisp :tangle emacs.el
    (transient-define-prefix tsa/transient-shell
      "Shell commands to be used"
      ["Shell Commands"
@@ -1577,7 +1562,7 @@ Having the variety of shell-types available at fingertip. better-shell is easily
 ****** tsa/transient-help
 https://www.reddit.com/r/emacs/comments/f3o0v8/anyone_have_good_examples_for_transient/
 
-       #+begin_src elisp :tangle lisp/tsa-transient.el
+       #+begin_src elisp :tangle emacs.el
 	 (transient-define-prefix tsa/transient-help ()
 	   "Help commands that I use. A subset of C-h with others thrown in."
 	   ["Help Commands"
@@ -1640,7 +1625,7 @@ https://www.reddit.com/r/emacs/comments/f3o0v8/anyone_have_good_examples_for_tra
 ****** transient-global-org
 The giant org transient, intended to be used everwhere, including in exwm windows.
 
- #+BEGIN_SRC elisp :tangle lisp/tsa-transient.el
+ #+BEGIN_SRC elisp :tangle emacs.el
    (transient-define-prefix tsa/transient-global-org
      "Orgmode Master Transient"
      ;; (:color blue
@@ -1675,11 +1660,11 @@ The giant org transient, intended to be used everwhere, including in exwm window
 ****** Transient-window: The Big Transient for Ultimate Navigation
 ******* Helper-fns
 ******** COMMENT req windmove
-  #+BEGIN_SRC elisp :tangle lisp/tsa-transient.el	
+  #+BEGIN_SRC elisp :tangle emacs.el	
 	(require 'windmove) ; also already added in my emacs-el
 #+END_SRC
 ******** tsa/move-splitter-left
-#+BEGIN_SRC elisp :tangle lisp/tsa-transient.el	
+#+BEGIN_SRC elisp :tangle emacs.el	
 	(defun tsa/move-splitter-left (arg)
 	  "Move window splitter left."
 	  (interactive "p")
@@ -1689,7 +1674,7 @@ The giant org transient, intended to be used everwhere, including in exwm window
 	    (enlarge-window-horizontally arg)))
 #+END_SRC
 ******** tsa/move-splitter-right
-#+BEGIN_SRC elisp :tangle lisp/tsa-transient.el	
+#+BEGIN_SRC elisp :tangle emacs.el	
 	(defun tsa/move-splitter-right (arg)
 	  "Move window splitter right."
 	  (interactive "p")
@@ -1699,7 +1684,7 @@ The giant org transient, intended to be used everwhere, including in exwm window
 	    (shrink-window-horizontally arg)))
 #+END_SRC
 ******** tsa/move-splitter-up
-#+BEGIN_SRC elisp :tangle lisp/tsa-transient.el	
+#+BEGIN_SRC elisp :tangle emacs.el	
 	(defun tsa/move-splitter-up (arg)
 	  "Move window splitter up."
 	  (interactive "p")
@@ -1709,7 +1694,7 @@ The giant org transient, intended to be used everwhere, including in exwm window
 	    (shrink-window arg)))
 #+END_SRC
 ******** tsa/exwm-workspace-swap
-#+BEGIN_SRC  elisp :tangle lisp/tsa-transient.el	
+#+BEGIN_SRC  elisp :tangle emacs.el	
   (defun tsa/exwm-workspace-swap ()
     "Swap workspaces, querying for which to swap if there are more than 2"
     (interactive)
@@ -1721,7 +1706,7 @@ The giant org transient, intended to be used everwhere, including in exwm window
 #+END_SRC
 
 ******** tsa/move-splitter-down
-#+BEGIN_SRC elisp :tangle lisp/tsa-transient.el	
+#+BEGIN_SRC elisp :tangle emacs.el	
 	(defun tsa/move-splitter-down (arg)
 	  "Move window splitter down."
 	  (interactive "p")
@@ -1731,14 +1716,14 @@ The giant org transient, intended to be used everwhere, including in exwm window
 	    (enlarge-window arg)))
 #+END_SRC
 ******** window-size-keys                                             :ARCHIVE:
-#+BEGIN_SRC elisp :tangle lisp/tsa-transient.el	
+#+BEGIN_SRC elisp :tangle emacs.el	
 	(global-set-key [C-up] 'enlarge-window)
 	(global-set-key [C-down] (lambda () (interactive)
 				   (enlarge-window -1)))
 #+END_SRC
 ****** transient-goto
       in-buffer navigation shortcuts. 
- #+BEGIN_SRC elisp :tangle lisp/tsa-transient.el
+ #+BEGIN_SRC elisp :tangle emacs.el
    (transient-define-prefix tsa/transient-scroll ()
      "WIP Navigate screen repeatably. but suffix or infix don't seem to do it"
      [["Navigate Viewport"
@@ -1772,7 +1757,7 @@ The giant org transient, intended to be used everwhere, including in exwm window
 #+END_SRC
 ****** COMMENT transient-gnus-group
 Not specifically bound, but a shortcut for dealing with gnus
-#+BEGIN_SRC elisp :tangle lisp/tsa-transient.el
+#+BEGIN_SRC elisp :tangle emacs.el
       (transient-define-prefix transient-gnus-group ()
 	"Gnus Group"
 					      ;    ("TAB" gnus-topic-indent "indent")
@@ -1803,7 +1788,7 @@ Not specifically bound, but a shortcut for dealing with gnus
 ****** transient-bbdb
 Transient for helping with bbdb.
 
- #+BEGIN_SRC elisp :tangle lisp/tsa-transient.el
+ #+BEGIN_SRC elisp :tangle emacs.el
    (transient-define-prefix tsa/transient-bbdb ()
      "BBDB Commands"
      ["BBDB"
@@ -1818,7 +1803,7 @@ Transient for helping with bbdb.
 ******* help fn: toggle-ace-mode
 Determine whether to ace-search by char or word. 
 
-  #+BEGIN_SRC elisp :tangle lisp/tsa-transient.el
+  #+BEGIN_SRC elisp :tangle emacs.el
      (defun tsa/toggle-ace-mode ()
        "Toggle whether to search by word or char"
        (interactive)
@@ -1833,7 +1818,7 @@ Determine whether to ace-search by char or word.
 ******* tsa/transient-fkeys
 Extends the f-keys to be documented and to concerve space. f-kays that aren't used super-frequently go here (ie. not =quick-org= or downloading mail
 
-#+BEGIN_SRC elisp :tangle lisp/tsa-transient.el
+#+BEGIN_SRC elisp :tangle emacs.el
   (transient-define-prefix tsa/transient-fkeys
     "Transient for the <f#> keys"
     ["F-Keys"
@@ -1851,7 +1836,7 @@ Extends the f-keys to be documented and to concerve space. f-kays that aren't us
 #+END_SRC
 
 ****** tsa/hide-mode-line
-#+BEGIN_SRC elisp :tangle lisp/tsa-transient.el
+#+BEGIN_SRC elisp :tangle emacs.el
   (defun tsa/hide-mode-line (arg)
     "Hide or global hide-modeline for a transient. Doesn't work, though."  
     (interactive "p")
@@ -2000,22 +1985,15 @@ Snippets anywhere.
 
 * TODO personal lisp customization
 Files under emacs/lisp representing customizations and functions I've written
-** tsa-hydra.el
+** tsa-hydra
 The Hydra commands I use.
-
-*** Preamble
-  #+BEGIN_SRC elisp :tangle lisp/tsa-hydra.el
-  ;; THIS FILE IS GENERATED
-  ;; Miscellaneous functions
-  ;; Tory S. Anderson (concat "mail" "@" "toryanderson" ".com")
-  #+END_SRC
 
 *** Hydra window and buffer navigation
 **** Helper functions
 ***** tsa/hydra-ace-cmd
   Ace-window but go back to the Hydra
 
-  #+BEGIN_SRC elisp :tangle lisp/tsa-hydra.el
+  #+BEGIN_SRC elisp :tangle emacs.el
     ;;; Usage Functions
     (defun tsa/hydra-ace-cmd ()
       (interactive)
@@ -2027,7 +2005,7 @@ The Hydra commands I use.
 ***** hydra-split-vertical
  Split window vertically and move to the split
 
- #+BEGIN_SRC elisp :tangle lisp/tsa-hydra.el
+ #+BEGIN_SRC elisp :tangle emacs.el
     (defun hydra-split-vertical ()
       (interactive)
       (split-window-right)
@@ -2036,7 +2014,7 @@ The Hydra commands I use.
 ***** hydra-split-horizontal
  Split window horizontally and move to the split
 
- #+BEGIN_SRC elisp :tangle lisp/tsa-hydra.el
+ #+BEGIN_SRC elisp :tangle emacs.el
     (defun hydra-split-horizontal ()
       (interactive)
       (split-window-below)
@@ -2045,7 +2023,7 @@ The Hydra commands I use.
 ***** tsa/hydra-screen-swap
  Swap two screens (windows) with eachother, then back to hydra.
 
- #+BEGIN_SRC elisp :tangle lisp/tsa-hydra.el
+ #+BEGIN_SRC elisp :tangle emacs.el
     (defun tsa/hydra-screen-swap ()
       (interactive)
       (ace-window 4)
@@ -2055,7 +2033,7 @@ The Hydra commands I use.
 ***** hydra-del-window
  Kill a window
 
- #+BEGIN_SRC elisp :tangle lisp/tsa-hydra.el
+ #+BEGIN_SRC elisp :tangle emacs.el
     (defun hydra-del-window ()
       (interactive)
       (ace-window 16)
@@ -2065,7 +2043,7 @@ The Hydra commands I use.
 ***** tsa/split-window-4
  For large screens (like my TV), make the screen into a quad. Do nothing if we already have any splits.
 
- #+BEGIN_SRC elisp :tangle lisp/tsa-hydra.el
+ #+BEGIN_SRC elisp :tangle emacs.el
     (defun tsa/split-window-4 ()
       "Split into 4 windows"
      (interactive)
@@ -2076,7 +2054,7 @@ The Hydra commands I use.
 		(split-window-horizontally))))
  #+END_SRC
 ***** tsa/correct-all
- #+BEGIN_SRC elisp :tangle lisp/tsa-hydra.el
+ #+BEGIN_SRC elisp :tangle emacs.el
    (defun tsa/correct-all () 
      (interactive)
      (setq current-prefix-arg '(4))
@@ -2084,7 +2062,7 @@ The Hydra commands I use.
 #+END_SRC
 ***** tsa/projectile
       Choose files from this project or (=C-u=) choose projects. 
-#+BEGIN_SRC  elisp :tangle lisp/tsa-hydra.el
+#+BEGIN_SRC  elisp :tangle emacs.el
   (defun tsa/projectile (&optional choose-project)
     "Open the scratch buffer. With c-u, in other window."
     (interactive "P")
@@ -2094,7 +2072,7 @@ The Hydra commands I use.
 #+END_SRC
 ***** tsa/open-scratch
       open or switch to scratch buffer.
-#+BEGIN_SRC  elisp :tangle lisp/tsa-hydra.el
+#+BEGIN_SRC  elisp :tangle emacs.el
   (defun tsa/open-scratch (&optional same-window)
     "Open the scratch buffer. With c-u, in other window."
     (interactive "P")
@@ -2108,7 +2086,7 @@ This is where the difference between key-bindings and hydra function calls reall
 **** tsa/hydra-multiplecursors
 Some of these break because they are a hydra. E.g. the dwim. 
 
- #+BEGIN_SRC elisp :tangle lisp/tsa-hydra.el
+ #+BEGIN_SRC elisp :tangle emacs.el
    (defhydra tsa/hydra-multiplecursors (global-map "C-;"
 					       :color red)
      "MultiCursors"
@@ -2126,7 +2104,7 @@ Some of these break because they are a hydra. E.g. the dwim.
  #+END_SRC
 **** COMMENT hydra-eww
 eww helpers
- #+BEGIN_SRC elisp :tangle lisp/tsa-hydra.el
+ #+BEGIN_SRC elisp :tangle emacs.el
     (defhydra hydra-w3m (:color blue)
       "EW3M"
    ("e" eww "eww")
@@ -2139,7 +2117,7 @@ eww helpers
  #+END_SRC
 **** tsa/hydra-w3m
 eww helpers
- #+BEGIN_SRC elisp :tangle lisp/tsa-hydra.el
+ #+BEGIN_SRC elisp :tangle emacs.el
     (defhydra tsa/hydra-w3m (:color blue)
       "EW3M"
       ("e" w3m-search "w3m 🔍")
@@ -2158,7 +2136,7 @@ eww helpers
 **** tsa/hydra-spellcheck
 Spell check convenience.
 
- #+BEGIN_SRC elisp :tangle lisp/tsa-hydra.el
+ #+BEGIN_SRC elisp :tangle emacs.el
    (global-set-key
     (kbd "<f12>")
     (defhydra tsa/hydra-spelling (:color red)
@@ -2171,7 +2149,7 @@ Spell check convenience.
 **** tsa/hydra-shells
 Having the variety of shell-types available at fingertip. better-shell is easily the most common, though.
 
- #+BEGIN_SRC elisp :tangle lisp/tsa-hydra.el
+ #+BEGIN_SRC elisp :tangle emacs.el
    (global-set-key
     (kbd "C-z")
     (defhydra tsa/hydra-shells (:color blue)
@@ -2185,7 +2163,7 @@ Having the variety of shell-types available at fingertip. better-shell is easily
 **** tsa/hydra-global-org
 The giant org hydra, intended to be used everwhere, including in exwm windows.
 
- #+BEGIN_SRC elisp :tangle lisp/tsa-hydra.el
+ #+BEGIN_SRC elisp :tangle emacs.el
       (global-set-key
        (kbd "C-c o")
        (defhydra tsa/hydra-global-org (:color blue
@@ -2225,11 +2203,11 @@ The giant org hydra, intended to be used everwhere, including in exwm windows.
 ***** Hydra-window: The Big Hydra for Ultimate Navigation
 ***** Helper-fns
 ****** req windmove
-  #+BEGIN_SRC elisp :tangle lisp/tsa-hydra.el	
+  #+BEGIN_SRC elisp :tangle emacs.el	
 	(require 'windmove) ; also already added in my emacs-el
 #+END_SRC
 ****** tsa/hydra-move-splitter-left
-#+BEGIN_SRC elisp :tangle lisp/tsa-hydra.el	
+#+BEGIN_SRC elisp :tangle emacs.el	
 	(defun tsa/hydra-move-splitter-left (arg)
 	  "Move window splitter left."
 	  (interactive "p")
@@ -2239,7 +2217,7 @@ The giant org hydra, intended to be used everwhere, including in exwm windows.
 	    (enlarge-window-horizontally arg)))
 #+END_SRC
 ****** tsa/hydra-move-splitter-right
-#+BEGIN_SRC elisp :tangle lisp/tsa-hydra.el	
+#+BEGIN_SRC elisp :tangle emacs.el	
 	(defun tsa/hydra-move-splitter-left (arg)
 	  "Move window splitter right."
 	  (interactive "p")
@@ -2249,7 +2227,7 @@ The giant org hydra, intended to be used everwhere, including in exwm windows.
 	    (shrink-window-horizontally arg)))
 #+END_SRC
 ****** tsa/hydra-move-splitter-up
-#+BEGIN_SRC elisp :tangle lisp/tsa-hydra.el	
+#+BEGIN_SRC elisp :tangle emacs.el	
 	(defun tsa/hydra-move-splitter-up (arg)
 	  "Move window splitter up."
 	  (interactive "p")
@@ -2259,7 +2237,7 @@ The giant org hydra, intended to be used everwhere, including in exwm windows.
 	    (shrink-window arg)))
 #+END_SRC
 ****** tsa/exwm-workspace-swap
-#+BEGIN_SRC  elisp :tangle lisp/tsa-hydra.el	
+#+BEGIN_SRC  elisp :tangle emacs.el	
   (defun tsa/exwm-workspace-swap ()
     "Swap workspaces, querying for which to swap if there are more than 2"
     (interactive)
@@ -2271,7 +2249,7 @@ The giant org hydra, intended to be used everwhere, including in exwm windows.
 #+END_SRC
 
 ****** tsa/hydra-move-splitter-down
-#+BEGIN_SRC elisp :tangle lisp/tsa-hydra.el	
+#+BEGIN_SRC elisp :tangle emacs.el	
 	(defun tsa/hydra-move-splitter-down (arg)
 	  "Move window splitter down."
 	  (interactive "p")
@@ -2281,13 +2259,13 @@ The giant org hydra, intended to be used everwhere, including in exwm windows.
 	    (enlarge-window arg)))
 #+END_SRC
 ****** window-size-keys                                             :ARCHIVE:
-#+BEGIN_SRC elisp :tangle lisp/tsa-hydra.el	
+#+BEGIN_SRC elisp :tangle emacs.el	
 	(global-set-key [C-up] 'enlarge-window)
 	(global-set-key [C-down] (lambda () (interactive)
 				   (enlarge-window -1)))
 #+END_SRC
 ***** tsa/hydra-window
-#+BEGIN_SRC elisp :tangle lisp/tsa-hydra.el	
+#+BEGIN_SRC elisp :tangle emacs.el	
   (bind-key* "C-M-o"
 	     (defhydra tsa/hydra-window (:body-pre (setq exwm-input-line-mode-passthrough ''t)
 					       :post (setq exwm-input-line-mode-passthrough nil))
@@ -2365,7 +2343,7 @@ The giant org hydra, intended to be used everwhere, including in exwm windows.
    #+END_SRC
 **** tsa/hydra-goto
       in-buffer navigation shortcuts. 
- #+BEGIN_SRC elisp :tangle lisp/tsa-hydra.el
+ #+BEGIN_SRC elisp :tangle emacs.el
    (global-set-key
     (kbd "M-g")
     (defhydra tsa/hydra-goto ()
@@ -2390,7 +2368,7 @@ The giant org hydra, intended to be used everwhere, including in exwm windows.
 #+END_SRC
 **** tsa/hydra-gnus-group
 Not specifically bound, but a shortcut for dealing with gnus
-#+BEGIN_SRC elisp :tangle lisp/tsa-hydra.el
+#+BEGIN_SRC elisp :tangle emacs.el
       (defhydra tsa/hydra-gnus-group ()
 	"Gnus Group"
 					      ;    ("TAB" gnus-topic-indent "indent")
@@ -2421,7 +2399,7 @@ Not specifically bound, but a shortcut for dealing with gnus
 **** tsa/hydra-bbdb
 Hydra for helping with bbdb.
 
- #+BEGIN_SRC elisp :tangle lisp/tsa-hydra.el
+ #+BEGIN_SRC elisp :tangle emacs.el
       (global-set-key
        (kbd "C-c b")
        (defhydra tsa/hydra-bbdb ()
@@ -2438,7 +2416,7 @@ Hydra for helping with bbdb.
 ***** help fn: toggle-ace-mode
 Determine whether to ace-search by char or word. 
 
-  #+BEGIN_SRC elisp :tangle lisp/tsa-hydra.el
+  #+BEGIN_SRC elisp :tangle emacs.el
      (defun tsa/toggle-ace-mode ()
        "Toggle whether to search by word or char"
        (interactive)
@@ -2451,7 +2429,7 @@ Determine whether to ace-search by char or word.
 	   (message "Jump-Char Mode"))))
 #+END_SRC
 ***** tsa/hide-mode-line
-#+BEGIN_SRC elisp :tangle lisp/tsa-hydra.el
+#+BEGIN_SRC elisp :tangle emacs.el
   (defun tsa/hide-mode-line (arg)
     "Hide or global hide-modeline for a hydra. Doesn't work, though."  
     (interactive "p")
@@ -2465,7 +2443,7 @@ Determine whether to ace-search by char or word.
 ***** tsa/hydra-fkeys
 Extends the f-keys to be documented and to concerve space. f-kays that aren't used super-frequently go here (ie. not =quick-org= or downloading mail
 
-#+BEGIN_SRC elisp :tangle lisp/tsa-hydra.el
+#+BEGIN_SRC elisp :tangle emacs.el
   (defhydra tsa/hydra-fkeys
     (:color red)
     "F Keys"
@@ -2485,7 +2463,7 @@ Extends the f-keys to be documented and to concerve space. f-kays that aren't us
 **** COMMENT hydra persp                                                    :ARCHIVE:
       If persp is being used, there are so many keys to manage, here's this. I'm not currently using persp, though, because it doesn't work well with exwm. 
 
-#+BEGIN_SRC elisp :tangle lisp/tsa-hydra.el
+#+BEGIN_SRC elisp :tangle emacs.el
   (bind-key*
    (kbd "C-M-p")
    (defhydra tsa/hydra-persp
