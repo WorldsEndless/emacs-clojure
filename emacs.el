@@ -710,29 +710,6 @@ search modes defined in the new `dired-sort-toggle'.
   (projectile-global-mode)
   (define-key projectile-command-map (kbd "s g") 'consult-git-grep))
 
-(add-hook 'python-mode-hook (lambda ()
-			     (setq-local fill-column 79)
-			     (auto-fill-mode)))
-
-(use-package lsp-mode
-	
-	:hook (python-mode . lsp)
-
-	:custom
-	(help-at-pt-timer-delay 1)
-	(help-at-pt-display-when-idle '(flymake-diagnostic))
-
-	:commands lsp
-	:config   
-	(use-package lsp-ui  :commands lsp-ui-mode)
-	(use-package company-lsp  :commands company-lsp)
-	;(use-package helm-lsp  :commands helm-lsp-workspace-symbol)
-	(use-package dap-mode )
-	(use-package dap-python
-	:custom (dap-python-executable "python3")
-	(python-shell-interpreter "python3")
-))
-
 (use-package rainbow-delimiters
   :config
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))

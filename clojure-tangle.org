@@ -75,7 +75,7 @@ These "put" commands don't have versions within customize-variables
     (put 'upcase-region 'disabled nil)
 #+END_SRC
 
-** Global customizations EMAC;S
+** Global customizations EMACS
 Customizations not paired to a particular package
 #+begin_src elisp :tangle emacs.el
   (use-package emacs
@@ -1048,41 +1048,6 @@ Must have for project navigation.
     :config
     (projectile-global-mode)
     (define-key projectile-command-map (kbd "s g") 'consult-git-grep))
-#+END_SRC
-*** Python family
-**** python hooks
-***** pylint-happy fill-column
- #+BEGIN_SRC elisp :tangle emacs.el
-   (add-hook 'python-mode-hook (lambda ()
-				(setq-local fill-column 79)
-				(auto-fill-mode)))
- #+END_SRC
-**** COMMENT elpy
- #+BEGIN_SRC elisp :tangle emacs.el
-   ;; (use-package elpy
-   ;; ;
-   ;;   :config (elpy-enable))
-#+END_SRC
-*** lsp-mode
-#+BEGIN_SRC elisp :tangle emacs.el
-      (use-package lsp-mode
-	
-	:hook (python-mode . lsp)
-
-	:custom
-	(help-at-pt-timer-delay 1)
-	(help-at-pt-display-when-idle '(flymake-diagnostic))
-
-	:commands lsp
-	:config   
-	(use-package lsp-ui  :commands lsp-ui-mode)
-	(use-package company-lsp  :commands company-lsp)
-	;(use-package helm-lsp  :commands helm-lsp-workspace-symbol)
-	(use-package dap-mode )
-	(use-package dap-python
-	:custom (dap-python-executable "python3")
-	(python-shell-interpreter "python3")
-))
 #+END_SRC
 *** [[https://www.emacswiki.org/emacs/RainbowDelimiters][rainbow-delimeters]]
 Excellent paren highlighting for lisp modes (or others). 
