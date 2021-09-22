@@ -75,7 +75,7 @@ These "put" commands don't have versions within customize-variables
     (put 'upcase-region 'disabled nil)
 #+END_SRC
 
-** Global customizations EMACS
+** Global customizations EMAC;S
 Customizations not paired to a particular package
 #+begin_src elisp :tangle emacs.el
   (use-package emacs
