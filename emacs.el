@@ -408,7 +408,6 @@
   (defun my-clojure-mode-hook () 
     (highlight-phrase "TODO" 'clj-todo-face)
     (yas-minor-mode 1) 
-    (cljr-add-keybindings-with-prefix "C-c C-m")
     (and buffer-file-name
      (string-match "/\\(?:style\\|css\\)/" buffer-file-name)
      (rainbow-mode 1)))
@@ -620,46 +619,36 @@ search modes defined in the new `dired-sort-toggle'.
   (which-key-mode))
 
 ;; GOLDEN PAKAGE
-  (use-package magit
-     :defer 3
-     :bind (:map magit-section-mode-map
-		([M-tab] . iflipb-next-buffer)
-		("M-TAB" . iflipb-next-buffer)
-		("M-S-TAB" . iflipb-previous-buffer)
-		:map magit-mode-map
-		([M-tab] . iflipb-next-buffer)
-		("M-TAB" . iflipb-next-buffer)
-		("M-S-TAB" . iflipb-previous-buffer))
-		:custom 
-	 (vc-annotate-background nil)
-	 (vc-annotate-color-map
-	  '((20 . "#cc6666")
-	    (40 . "#de935f")
-	    (60 . "#f0c674")
-	    (80 . "#b5bd68")
-	    (100 . "#8abeb7")
-	    (120 . "#81a2be")
-	    (140 . "#b294bb")
-	    (160 . "#cc6666")
-	    (180 . "#de935f")
-	    (200 . "#f0c674")
-	    (220 . "#b5bd68")
-	    (240 . "#8abeb7")
-	    (260 . "#81a2be")
-	    (280 . "#b294bb")
-	    (300 . "#cc6666")
-	    (320 . "#de935f")
-	    (340 . "#f0c674")
-	    (360 . "#b5bd68")))
-	 (vcannotate-very-old-color nil)
-	 (vc-follow-symlinks t)
-	 (vc-handled-backends nil) ;; disable built-in vc
-	 ;(vc-handled-backends '(Git))
-    :config
-    (add-hook 'ediff-prepare-buffer-hook #'show-all) ;; Expand orgmode files before ediffing them
-;    (global-magit-file-mode)
-    (global-set-key (kbd "C-x g") 'magit-status)
-    (setq magit-diff-use-overlays nil))
+(use-package magit
+  :custom 
+       (vc-annotate-background nil)
+       (vc-annotate-color-map
+	'((20 . "#cc6666")
+	  (40 . "#de935f")
+	  (60 . "#f0c674")
+	  (80 . "#b5bd68")
+	  (100 . "#8abeb7")
+	  (120 . "#81a2be")
+	  (140 . "#b294bb")
+	  (160 . "#cc6666")
+	  (180 . "#de935f")
+	  (200 . "#f0c674")
+	  (220 . "#b5bd68")
+	  (240 . "#8abeb7")
+	  (260 . "#81a2be")
+	  (280 . "#b294bb")
+	  (300 . "#cc6666")
+	  (320 . "#de935f")
+	  (340 . "#f0c674")
+	  (360 . "#b5bd68")))
+       (vcannotate-very-old-color nil)
+       (vc-follow-symlinks t)
+       (vc-handled-backends nil) ;; disable built-in vc
+       ;(vc-handled-backends '(Git))
+  :config
+				      ;    (global-magit-file-mode)
+  (global-set-key (kbd "C-x g") 'magit-status)
+  (setq magit-diff-use-overlays nil))
 
 (use-package markdown-mode
   :mode "\\.md\\'")

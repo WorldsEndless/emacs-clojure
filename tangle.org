@@ -30,7 +30,7 @@ Set search to look for spaces literally
 #+END_SRC
 
 ** Init w/ straight.el
-   #+begin_src elisp :tangle emacs.el
+   #+BEGIN_SRC elisp :tangle emacs.el
 (setq straight-cache-autoloads t
       straight-check-for-modifications '(check-on-save find-when-checking)
       straight-repository-branch "develop"
@@ -51,7 +51,7 @@ Set search to look for spaces literally
   (load bootstrap-file nil 'nomessage))
 
 (straight-use-package 'use-package)
-
+#+END_SRC
 ** Misc functions
 These "put" commands don't have versions within customize-variables  
   #+BEGIN_SRC elisp :tangle emacs.el
@@ -1931,7 +1931,7 @@ Determine whether to ace-search by char or word.
 	   (message "Jump-Char Mode"))))
 #+END_SRC
 ******* tsa/transient-fkeys
-Extends the f-keys to be documented and to concerve space. f-kays that aren't used super-frequently go here (ie. not =quick-org= or downloading mail
+Extends the f-keys to be documented and to concerve space. f-kays that aren't used super-frequently go here (ie. not =quick-org= or downloading mail)
 
 #+BEGIN_SRC elisp :tangle emacs.el
   (transient-define-prefix tsa/transient-fkeys
@@ -2273,50 +2273,6 @@ Some of these break because they are a hydra. E.g. the dwim.
      ("#" mc/insert-numbers "numbers")
      ("SPC" nil) )
  #+END_SRC
-**** COMMENT hydra-eww
-eww helpers
- #+BEGIN_SRC elisp :tangle emacs.el
-    (defhydra hydra-w3m (:color blue)
-      "EW3M"
-   ("e" eww "eww")
-   ("b" eww-switch-to-buffer "switch")
-   ("B" eww-list-buffers "buffers")
-   ("h" eww-list-histories "history"))
-   ;; "Eww"
-
-
- #+END_SRC
-**** tsa/hydra-w3m
-eww helpers
- #+BEGIN_SRC elisp :tangle emacs.el
-    (defhydra tsa/hydra-w3m (:color blue)
-      "EW3M"
-      ("e" w3m-search "w3m 🔍")
-      ("E" w3m "w3m 🏠")
-      ("h" w3m-db-history "history")
-      ("b" w3m-select-buffer "buffers")
-      )
-
-   ;; "Eww"
-   ;; ("e" eww "eww")
-   ;; ("b" eww-switch-to-buffer "switch")
-   ;; ("B" eww-list-buffers "buffers")
-   ;;"h" eww-list-histories "history")
-
- #+END_SRC
-**** tsa/hydra-spellcheck
-Spell check convenience.
-
- #+BEGIN_SRC elisp :tangle emacs.el
-   (global-set-key
-    (kbd "<f12>")
-    (defhydra tsa/hydra-spelling (:color red)
-      "Shell"
-      ("<f12>" flyspell-buffer "spell buffer")
-      ("<f11>" tsa/correct-all "spell correct" :color blue)
-      ("<f10>" flyspell-correct-wrapper "one correct")))
- #+END_SRC
-
 **** tsa/hydra-shells
 Having the variety of shell-types available at fingertip. better-shell is easily the most common, though.
 
@@ -2537,52 +2493,6 @@ The giant org hydra, intended to be used everwhere, including in exwm windows.
       ("]" forward-page "forward page")
       ("SPC" nil "cancel")))
 #+END_SRC
-**** tsa/hydra-gnus-group
-Not specifically bound, but a shortcut for dealing with gnus
-#+BEGIN_SRC elisp :tangle emacs.el
-      (defhydra tsa/hydra-gnus-group ()
-	"Gnus Group"
-					      ;    ("TAB" gnus-topic-indent "indent")
-					      ;    ("<tab>" gnus-topic-indent "indent")
-	("#" gnus-topic-mark-topic "mark")
-	("u" gnus-topic-unmark-topic "unmark")
-	("C" gnus-topic-copy-matching "Copy-m")
-	("D" gnus-topic-remove-group "DLT")
-	("H" gnus-topic-toggle-display-empty-topics "Hide Empty")
-	("M" gnus-topic-move-matching "Move-m")
-	("S" gnus-topic-sort-map "sort")
-	("c" gnus-topic-copy-group "copy")
-	("h" gnus-topic-hide-topic "hide")
-	("j" gnus-topic-jump-to-topic "jump")
-	("m" gnus-topic-move-group "move")
-	("N" gnus-topic-create-topic "new")
-	("n" gnus-topic-goto-next-topic "→")
-					      ;    ("TAB" gnus-topic-goto-next-topic "→")
-	("<tab>" gnus-topic-goto-next-topic "→")
-	("p" gnus-topic-goto-previous-topic "←")
-					      ;    ("BACKTAB" gnus-topic-goto-previous-topic "←")
-	("<backtab>" gnus-topic-goto-previous-topic "←")
-	("r" gnus-topic-rename "rename")
-	("s" gnus-topic-fold-this-topic "show")
-	("DEL" gnus-topic-delete "delete")
-	("SPC" nil "cancel"))
- #+END_SRC
-**** tsa/hydra-bbdb
-Hydra for helping with bbdb.
-
- #+BEGIN_SRC elisp :tangle emacs.el
-      (global-set-key
-       (kbd "C-c b")
-       (defhydra tsa/hydra-bbdb ()
-	 "Go To"
-	 ("b" tsa/bbdb-list "Ivy BBDB")
-	 ("B" bbdb "BBDB")
-	 ("c" bbdb-create "Create")
-	 ("x" bbdb-search-xfields "X-Field")
-	 ("s" bbdb-snarf "Snarf")
-	 ("SPC" nil "cancel")
-	 ))
-#+END_SRC
 **** tsa/hydra-fkeys
 ***** help fn: toggle-ace-mode
 Determine whether to ace-search by char or word. 
@@ -2633,29 +2543,8 @@ Extends the f-keys to be documented and to concerve space. f-kays that aren't us
     ("r" revert-buffer "revert")
     ("SPC" nil "cancel" :color blue))
 #+END_SRC
-**** COMMENT hydra persp                                                    :ARCHIVE:
-      If persp is being used, there are so many keys to manage, here's this. I'm not currently using persp, though, because it doesn't work well with exwm. 
-
-#+BEGIN_SRC elisp :tangle emacs.el
-  (bind-key*
-   (kbd "C-M-p")
-   (defhydra tsa/hydra-persp
-     (:color blue)
-     "Perspectives"
-     ("n" persp-next "next" :color red)
-     ("p" persp-prev "prev" :color red)
-     ("s" persp-switch "switch")
-     ("r" persp-rename "rename")
-     ("a" persp-add-buffer "addb")
-     ("b" persp-switch-to-buffer "buffer")
-     ("i" persp-import "import")
-     ("k" persp-remove-buffer "removeb")
-     ;("w" persp-sav)
-     ("K" persp-kill "killb")
-     ("o" persp-mode "toggle persp")))
-     #+END_SRC
 ** STARTED tsa-misc.el
- Miscelaneous Personal Functions
+ Miscellaneous Personal Functions
 
 *** Preamble
   #+BEGIN_SRC elisp :tangle emacs.el
@@ -2663,8 +2552,10 @@ Extends the f-keys to be documented and to concerve space. f-kays that aren't us
   #+END_SRC
 
 *** TODO more stuff
+
+**** Window split
 #+BEGIN_SRC elisp :tangle emacs.el
-  (defun toggle-window-split ()
+(defun toggle-window-split ()
     "Toggle whether windows are split vertically or horizontally"
     (interactive)  
     (if (= (count-windows) 2)  
@@ -2689,8 +2580,10 @@ Extends the f-keys to be documented and to concerve space. f-kays that aren't us
 	    (set-window-buffer (next-window) next-win-buffer)  
 	    (select-window first-win)  
 	    (if this-win-2nd (other-window 1))))))  
+  #+END_SRC
   
-  
+**** rename file and buffer
+  #+BEGIN_SRC elisp :tangle emacs.el  
   (defun tsa/rename-file-and-buffer ()
     "Rename the current buffer and file it is visiting."
     (interactive)
