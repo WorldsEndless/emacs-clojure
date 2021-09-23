@@ -1077,47 +1077,41 @@ Necessary for spell-check actions
 *** Magit
 Golden package.
 #+BEGIN_SRC elisp :tangle emacs.el
-  ;; GOLDEN PAKAGE
-  (use-package magit
-     :defer 3
-     :bind (:map magit-section-mode-map
-		([M-tab] . iflipb-next-buffer)
-		("M-TAB" . iflipb-next-buffer)
-		("M-S-TAB" . iflipb-previous-buffer)
-		:map magit-mode-map
-		([M-tab] . iflipb-next-buffer)
-		("M-TAB" . iflipb-next-buffer)
-		("M-S-TAB" . iflipb-previous-buffer))
-		:custom 
-	 (vc-annotate-background nil)
-	 (vc-annotate-color-map
-	  '((20 . "#cc6666")
-	    (40 . "#de935f")
-	    (60 . "#f0c674")
-	    (80 . "#b5bd68")
-	    (100 . "#8abeb7")
-	    (120 . "#81a2be")
-	    (140 . "#b294bb")
-	    (160 . "#cc6666")
-	    (180 . "#de935f")
-	    (200 . "#f0c674")
-	    (220 . "#b5bd68")
-	    (240 . "#8abeb7")
-	    (260 . "#81a2be")
-	    (280 . "#b294bb")
-	    (300 . "#cc6666")
-	    (320 . "#de935f")
-	    (340 . "#f0c674")
-	    (360 . "#b5bd68")))
-	 (vcannotate-very-old-color nil)
-	 (vc-follow-symlinks t)
-	 (vc-handled-backends nil) ;; disable built-in vc
-	 ;(vc-handled-backends '(Git))
-    :config
-    (add-hook 'ediff-prepare-buffer-hook #'show-all) ;; Expand orgmode files before ediffing them
-;    (global-magit-file-mode)
-    (global-set-key (kbd "C-x g") 'magit-status)
-    (setq magit-diff-use-overlays nil))
+    ;; GOLDEN PAKAGE
+    (use-package magit
+       :defer 3
+       :bind (:map magit-section-mode-map
+		  :map magit-mode-map
+		  :custom 
+	   (vc-annotate-background nil)
+	   (vc-annotate-color-map
+	    '((20 . "#cc6666")
+	      (40 . "#de935f")
+	      (60 . "#f0c674")
+	      (80 . "#b5bd68")
+	      (100 . "#8abeb7")
+	      (120 . "#81a2be")
+	      (140 . "#b294bb")
+	      (160 . "#cc6666")
+	      (180 . "#de935f")
+	      (200 . "#f0c674")
+	      (220 . "#b5bd68")
+	      (240 . "#8abeb7")
+	      (260 . "#81a2be")
+	      (280 . "#b294bb")
+	      (300 . "#cc6666")
+	      (320 . "#de935f")
+	      (340 . "#f0c674")
+	      (360 . "#b5bd68")))
+	   (vcannotate-very-old-color nil)
+	   (vc-follow-symlinks t)
+	   (vc-handled-backends nil) ;; disable built-in vc
+	   ;(vc-handled-backends '(Git))
+      :config
+      (add-hook 'ediff-prepare-buffer-hook #'show-all) ;; Expand orgmode files before ediffing them
+  ;    (global-magit-file-mode)
+      (global-set-key (kbd "C-x g") 'magit-status)
+      (setq magit-diff-use-overlays nil)))
 #+END_SRC
 *** multiple-cursors
 https://github.com/magnars/multiple-cursors.el
@@ -1287,8 +1281,10 @@ sql and postgres setup and defaults
 	    (server :default "localhost")
 	    (port :default 5432))))
 #+END_SRC
-*** COMMENT [[https://github.com/akicho8/string-inflection][string-inflection]]                                       :ARCHIVE:
-underscore -> UPCASE -> CamelCase conversion of names.  Very useful when necessary, but I don't need this very often.
+*** string-inflection
+https://github.com/akicho8/string-inflection
+
+underscore → UPCASE → CamelCase conversion of names.  Very useful when necessary, but I don't need this very often.
 
 #+BEGIN_SRC elisp :tangle emacs.el
       (use-package string-inflection
@@ -1297,6 +1293,7 @@ underscore -> UPCASE -> CamelCase conversion of names.  Very useful when necessa
 #+END_SRC
 
 *** Text-, Window-navigation and frame management
+
 **** ace-link
 https://github.com/abo-abo/ace-link
   #+BEGIN_SRC elisp :tangle emacs.el
@@ -1565,7 +1562,6 @@ SSH and remote-file editing easily
        (use-package transient
 	 :after org
 	 ;; comes installed with Magit, no need to install
-	 :config (tsa/safe-load-file "~/emacs/.emacs.d/lisp/tsa-transient.el")
 	 :straight nil
 	 ;; Anything not in a binding below needs to be called-out as a command
 	 :commands (transient-define-prefix)
@@ -1586,13 +1582,6 @@ SSH and remote-file editing easily
  #+end_src
 **** tsa-transient.el
 The Transient commands I use.
-
-***** Preamble
-  #+BEGIN_SRC elisp :tangle emacs.el
-  ;; THIS FILE IS GENERATED
-  ;; Miscellaneous functions
-  ;; Tory S. Anderson (concat "mail" "@" "toryanderson" ".com")
-  #+END_SRC
 
 ***** Transient window and buffer navigation
 ****** Helper functions
@@ -1834,48 +1823,8 @@ https://www.reddit.com/r/emacs/comments/f3o0v8/anyone_have_good_examples_for_tra
 	    ]
 	   )
        #+end_src
-****** transient-global-org
-The giant org transient, intended to be used everwhere, including in exwm windows.
-
- #+BEGIN_SRC elisp :tangle emacs.el
-   (transient-define-prefix tsa/transient-global-org
-     "Orgmode Master Transient"
-     :transient-non-suffix 'transient--do-quit-one
-     ;; (:color blue
-     ;; :hint nil
-     ;; :body-pre (setq exwm-input-line-mode-passthrough ''t)
-     ;; :post (setq exwm-input-line-mode-passthrough nil))
-     [["Clocks"
-       ("C-t" "timer start"  org-timer-start)
-       ("C-s" "timer stop"  org-timer-stop)
-       ("w" "clock-in to recent task" org-mru-clock-in)
-       ("W" "Clock in the last task" org-clock-in-last)
-       ("o" "Clock Out" org-clock-out)
-       ("j" "goto clock" org-clock-goto)
-       ("J" "Go to a clock" (lambda () (interactive) (org-clock-goto '(4))))]
-
-      ["Timers"
-       ("r" "Set Timer" org-timer-set-timer)
-       ("p" "Print org timer" org-timer)]
-
-      ["Hugo Blogging"
-       ("h" "export to hugo" hugo)
-       ("u" "upload" hugo-publish-up)
-       ("t" "publish and upload" hugo-total)
-       ]
-
-      ["Misc"
-       ("g" "Export as Markdown" org-gfm-export-as-markdown)
-       ("\\" "toggle pretty entities" org-toggle-pretty-entities)
-       ("l" "go to last stored capture" org-capture-goto-last-stored)
-       ("," "set org priority" org-priority)]])
-#+END_SRC
 ****** Transient-window: The Big Transient for Ultimate Navigation
 ******* Helper-fns
-******** COMMENT req windmove
-  #+BEGIN_SRC elisp :tangle emacs.el
-	(require 'windmove) ; also already added in my emacs-el
-#+END_SRC
 ******** tsa/move-splitter-left
 #+BEGIN_SRC elisp :tangle emacs.el
 	(defun tsa/move-splitter-left (arg)
@@ -1928,12 +1877,6 @@ The giant org transient, intended to be used everwhere, including in exwm window
 	      (shrink-window arg)
 	    (enlarge-window arg)))
 #+END_SRC
-******** window-size-keys                                             :ARCHIVE:
-#+BEGIN_SRC elisp :tangle emacs.el
-	(global-set-key [C-up] 'enlarge-window)
-	(global-set-key [C-down] (lambda () (interactive)
-				   (enlarge-window -1)))
-#+END_SRC
 ****** transient-goto
       in-buffer navigation shortcuts. 
  #+BEGIN_SRC elisp :tangle emacs.el
@@ -1969,52 +1912,6 @@ The giant org transient, intended to be used everwhere, including in exwm window
        ("t" "query replace thing at cursor" anzu-query-replace-at-cursor)
        ("T" "clobber-replace thing at cursor" anzu-query-replace-at-cursor-thing)
        ]])
-#+END_SRC
-****** COMMENT transient-gnus-group
-Not specifically bound, but a shortcut for dealing with gnus
-#+BEGIN_SRC elisp :tangle emacs.el
-      (transient-define-prefix transient-gnus-group ()
-	"Gnus Group"
-     :transient-non-suffix 'transient--do-quit-one
-					      ;    ("TAB" gnus-topic-indent "indent")
-					      ;    ("<tab>" gnus-topic-indent "indent")
-	("#" gnus-topic-mark-topic "mark")
-	("u" gnus-topic-unmark-topic "unmark")
-	("C" gnus-topic-copy-matching "Copy-m")
-	("D" gnus-topic-remove-group "DLT")
-	("H" gnus-topic-toggle-display-empty-topics "Hide Empty")
-	("M" gnus-topic-move-matching "Move-m")
-	("S" gnus-topic-sort-map "sort")
-	("c" gnus-topic-copy-group "copy")
-	("h" gnus-topic-hide-topic "hide")
-	("j" gnus-topic-jump-to-topic "jump")
-	("m" gnus-topic-move-group "move")
-	("N" gnus-topic-create-topic "new")
-	("n" gnus-topic-goto-next-topic "→")
-					      ;    ("TAB" gnus-topic-goto-next-topic "→")
-	("<tab>" gnus-topic-goto-next-topic "→")
-	("p" gnus-topic-goto-previous-topic "←")
-					      ;    ("BACKTAB" gnus-topic-goto-previous-topic "←")
-	("<backtab>" gnus-topic-goto-previous-topic "←")
-	("r" gnus-topic-rename "rename")
-	("s" gnus-topic-fold-this-topic "show")
-	("DEL" gnus-topic-delete "delete")
-	("SPC" nil "cancel"))
- #+END_SRC
-****** transient-bbdb
-Transient for helping with bbdb.
-
- #+BEGIN_SRC elisp :tangle emacs.el
-   (transient-define-prefix tsa/transient-bbdb ()
-     "BBDB Commands"
-     :transient-non-suffix 'transient--do-quit-one
-     ["BBDB"
-      ("b" "Ivy BBDB" tsa/bbdb-list)
-      ("B" "BBDB" bbdb)
-      ("c" "Create" bbdb-create)
-      ("x" "X-Field" bbdb-search-xfields)
-      ("s" "Snarf" bbdb-snarf)]
-     )
 #+END_SRC
 ****** tsa/transient-fkeys
 ******* help fn: toggle-ace-mode
@@ -2206,12 +2103,6 @@ Numpad keys without numlock:
       (define-key map (kbd "C-x C-q") 'view-mode) ;; view mode
       (define-key map (kbd "M-C-;") 'comment-box)
 					  ;      (define-key map (kbd "C-;") 'hydra-multiplecursors)
-      (define-key map [(meta tab)] 'iflipb-next-buffer)
-      (define-key map "\M-\C-i" 'iflipb-next-buffer)
-      (define-key map (kbd "M-C-i") 'iflipb-next-buffer)
-      (define-key map (kbd "M-TAB") 'iflipb-next-buffer)
-      (define-key map [M-tab] 'iflipb-next-buffer)  
-      (define-key map (kbd "M-S-TAB") 'iflipb-previous-buffer)
       (define-key map (kbd "C-c SPC") 'ace-jump-mode)
       (define-key map (kbd "M-c") 'capitalize-dwim)
       (define-key map (kbd "M-l") 'downcase-dwim)
@@ -2721,7 +2612,9 @@ Determine whether to ace-search by char or word.
       ((lambda () (interactive) (global-hide-mode-line-mode))))))
 #+END_SRC
 ***** tsa/hydra-fkeys
-Extends the f-keys to be documented and to concerve space. f-kays that aren't used super-frequently go here (ie. not =quick-org= or downloading mail
+Extends the f-keys to be documented and to concerve space. f-kays that aren't used super-frequently go here (ie. not =quick-org= or downloading mail)
+
+
 
 #+BEGIN_SRC elisp :tangle emacs.el
   (defhydra tsa/hydra-fkeys
@@ -2766,116 +2659,50 @@ Extends the f-keys to be documented and to concerve space. f-kays that aren't us
 
 *** Preamble
   #+BEGIN_SRC elisp :tangle emacs.el
-  ;; THIS FILE IS GENERATED
-  ;; Miscellaneous functions
-  ;; Tory S. Anderson (concat "mail" "@" "toryanderson" ".com")
-  ;(setq  display-time-format " %a %m.%d %H:%M")
-
   (require 'seq)
   #+END_SRC
 
-*** tsa/safe-load-file
- Required for various start-up functions
-  #+BEGIN_SRC elisp :tangle emacs.el
-  (defun tsa/safe-load-file (file-to-load)
-    "Load a file if it exists, otherwise message and move-on. 
-     Designed for sharing config files on different systems."
-    (if (file-exists-p file-to-load)
-	(load file-to-load)
-      (message (format "File doesn't exist to load: %s" file-to-load))))
- #+END_SRC
-
-*** Scroll functions
-  scroll-other-window that respects the mode of the other window (ideal for PDFview mode, info mode, etc)
-
- #+BEGIN_SRC elisp :tangle emacs.el
-  (defvar tsa/scroll-functions
-	'(("default" :down scroll-down :up scroll-up)
-	  (pdf-view-mode :down pdf-view-scroll-down-or-previous-page :up pdf-view-scroll-up-or-next-page)
-	  (help-mode :down Info-scroll-down :up Info-scroll-up))
-	"The functions that should be used when scrolling other windows of a particular buffer type.
-  If buffer type is not included, 'default' will be used. Used by tsa/smart-other-scroll")
-
-  (defun tsa/smart-other-scroll (dir)
-    "Scroll the other window with appropriate function; `dir' should be :up or :down "
-    (interactive)
-    (let* ((other-buffer-mode (with-current-buffer (window-buffer (other-window-for-scrolling)) major-mode))
-	   (fun (or (plist-get (cdr (assoc other-buffer-mode tsa/scroll-functions)) dir)
-		    (plist-get (cdr (assoc "default" tsa/scroll-functions)) dir))))
-      (if fun
-	  (with-selected-window (other-window-for-scrolling)
-	    (call-interactively fun))
-	)))
-
-  (defun tsa/other-scroll-up () "use `tsa/smart-other-scroll' :up" (interactive) (tsa/smart-other-scroll :up))
-  (defun tsa/other-scroll-down () "use `tsa/smart-other-scroll' :down" (interactive) (tsa/smart-other-scroll :down))
-  (define-key global-map (kbd "C-M-v") 'tsa/other-scroll-up)
-  (define-key global-map (kbd "C-M-S-v") 'tsa/other-scroll-down)
- #+END_SRC
-
-*** Bookmark List
- #+BEGIN_SRC elisp :tangle emacs.el
-  (defun tsa/go-or-make-bookmark-list ()
-    "Visit an existing bookmark list rather than creating a new one"
-    (interactive)
-    (let ((b "*Bookmark List*")) (if (get-buffer b) (switch-to-buffer b) (bookmark-bmenu-list))))
- #+END_SRC
-
 *** TODO more stuff
 #+BEGIN_SRC elisp :tangle emacs.el
-    (defun tsa/flatten (list)
-      (mapcan (lambda (x) (if (listp x) x nil)) list))
-
-    (defun tsa/format-email (name address)
-      (concat "\"" name "\" <" address ">"))
-#+END_SRC
-
-#+BEGIN_SRC elisp :tangle emacs.el
-    (defun toggle-window-split ()
-      "Toggle whether windows are split vertically or horizontally"
-      (interactive)  
-      (if (= (count-windows) 2)  
-	  (let* ((this-win-buffer (window-buffer))  
-		 (next-win-buffer (window-buffer (next-window)))  
-		 (this-win-edges (window-edges (selected-window)))  
-		 (next-win-edges (window-edges (next-window)))  
-		 (this-win-2nd (not (and (<= (car this-win-edges)  
-					     (car next-win-edges))  
-					 (<= (cadr this-win-edges)  
-					     (cadr next-win-edges)))))  
-		 (splitter  
-		  (if (= (car this-win-edges)  
-			 (car (window-edges (next-window))))  
-		      'split-window-horizontally  
-		    'split-window-vertically)))  
-	    (delete-other-windows)  
-	    (let ((first-win (selected-window)))  
-	      (funcall splitter)  
-	      (if this-win-2nd (other-window 1))  
-	      (set-window-buffer (selected-window) this-win-buffer)  
-	      (set-window-buffer (next-window) next-win-buffer)  
-	      (select-window first-win)  
-	      (if this-win-2nd (other-window 1))))))  
-
-
-    (defun tsa/rename-file-and-buffer ()
-      "Rename the current buffer and file it is visiting."
-      (interactive)
-      (let ((filename (buffer-file-name)))
-	(if (not (and filename (file-exists-p filename)))
-	    (message "Buffer is not visiting a file!")
-      (let ((new-name (read-file-name "New name: " filename)))
-	(cond
-       ((vc-backend filename) (vc-rename-file filename new-name))
-      (t
-       (rename-file filename new-name t)
-      (set-visited-file-name new-name t t)))))))
-
-    (defun tsa/iflip ()
-      "Use as a replacement for quit options; just switch to previous buffer"
-      (interactive)
-      (iflipb-next-buffer t))
-
+  (defun toggle-window-split ()
+    "Toggle whether windows are split vertically or horizontally"
+    (interactive)  
+    (if (= (count-windows) 2)  
+	(let* ((this-win-buffer (window-buffer))  
+	       (next-win-buffer (window-buffer (next-window)))  
+	       (this-win-edges (window-edges (selected-window)))  
+	       (next-win-edges (window-edges (next-window)))  
+	       (this-win-2nd (not (and (<= (car this-win-edges)  
+					   (car next-win-edges))  
+				       (<= (cadr this-win-edges)  
+					   (cadr next-win-edges)))))  
+	       (splitter  
+		(if (= (car this-win-edges)  
+		       (car (window-edges (next-window))))  
+		    'split-window-horizontally  
+		  'split-window-vertically)))  
+	  (delete-other-windows)  
+	  (let ((first-win (selected-window)))  
+	    (funcall splitter)  
+	    (if this-win-2nd (other-window 1))  
+	    (set-window-buffer (selected-window) this-win-buffer)  
+	    (set-window-buffer (next-window) next-win-buffer)  
+	    (select-window first-win)  
+	    (if this-win-2nd (other-window 1))))))  
+  
+  
+  (defun tsa/rename-file-and-buffer ()
+    "Rename the current buffer and file it is visiting."
+    (interactive)
+    (let ((filename (buffer-file-name)))
+      (if (not (and filename (file-exists-p filename)))
+	  (message "Buffer is not visiting a file!")
+    (let ((new-name (read-file-name "New name: " filename)))
+      (cond
+     ((vc-backend filename) (vc-rename-file filename new-name))
+    (t
+     (rename-file filename new-name t)
+    (set-visited-file-name new-name t t)))))))
   #+END_SRC
 
 
